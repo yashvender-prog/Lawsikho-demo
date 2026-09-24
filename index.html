@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Section 138 Notice Drafter</title>
+  <meta name="description" content="Draft a first demand notice under Section 138 of the Negotiable Instruments Act, 1881 using an LLM and reference templates." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">§</span>
+      <div>
+        <h1>Section 138 Notice Drafter</h1>
+        <p class="sub">First demand notice for cheque dishonour under the Negotiable Instruments Act, 1881</p>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <span id="modelBadge" class="badge" title="Current model">gpt-5.4-mini</span>
+      <button class="btn ghost" id="loadSampleBtn" type="button">Load sample case</button>
+      <button class="btn ghost" id="clearBtn" type="button">Clear form</button>
+      <button class="btn" id="settingsBtn" type="button" aria-haspopup="dialog">⚙ LLM settings</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- ============ LEFT: INPUT ============ -->
+    <section class="panel input-panel" aria-label="Case details">
+      <form id="noticeForm" autocomplete="off" novalidate>
+
+        <!-- Template -->
+        <details class="section" open>
+          <summary><span class="step">1</span> Reference template</summary>
+          <p class="hint">The model follows the tone and structure of the selected template. Facts always come from your inputs below.</p>
+          <div id="templateGrid" class="template-grid" role="radiogroup" aria-label="Reference template"></div>
+          <label class="check">
+            <input type="checkbox" id="useAllTemplates" /> Give the model all four templates as reference (uses more tokens)
+          </label>
+        </details>
+
+        <!-- Advocate -->
+        <details class="section" open>
+          <summary><span class="step">2</span> Advocate &amp; notice details</summary>
+          <div class="grid">
+            <label>Advocate name<input id="advName" placeholder="e.g. Falguni Rao" /></label>
+            <label>Designation / enrolment<input id="advDesignation" placeholder="Advocate, High Court of M.P. (Enrl. No. …)" /></label>
+            <label class="span2">Office address<input id="advAddress" placeholder="Chamber / office address" /></label>
+            <label>Phone<input id="advPhone" placeholder="+91 …" /></label>
+            <label>Email<input id="advEmail" type="email" placeholder="name@example.com" /></label>
+            <label>Date of notice<input id="noticeDate" type="date" /></label>
+            <label>Mode of dispatch
+              <select id="dispatchMode">
+                <option>BY REGISTERED POST A.D.</option>
+                <option>BY SPEED POST</option>
+                <option>BY REGISTERED POST A.D. AND EMAIL</option>
+                <option>BY COURIER AND EMAIL</option>
+                <option>BY HAND DELIVERY</option>
+              </select>
+            </label>
+            <label>Your reference no. <span class="opt">(optional)</span><input id="refNo" placeholder="e.g. FR/138/2026/014" /></label>
+          </div>
+        </details>
+
+        <!-- Client (payee) -->
+        <details class="section" open>
+          <summary><span class="step">3</span> Client (payee / holder in due course)</summary>
+          <div class="grid">
+            <label>Client name<input id="clientName" placeholder="e.g. M/s. Orbit Furnishings Pvt. Ltd." required /></label>
+            <label>Client type
+              <select id="clientType">
+                <option>Individual</option>
+                <option>Private Limited Company</option>
+                <option>Public Limited Company</option>
+                <option>Partnership Firm</option>
+                <option>LLP</option>
+                <option>Proprietorship</option>
+                <option>Bank / NBFC</option>
+                <option>Trust / Society</option>
+              </select>
+            </label>
+            <label class="span2">Client address<input id="clientAddress" placeholder="Registered office / residence" /></label>
+            <label class="span2">Client's business / background <span class="opt">(optional)</span><input id="clientBusiness" placeholder="e.g. manufacturing and supplying office furniture" /></label>
+            <label class="span2">Authorised representative <span class="opt">(if company / firm)</span><input id="clientRep" placeholder="e.g. Mr. A. Sharma, Director, authorised vide Board Resolution dated …" /></label>
+          </div>
+        </details>
+
+        <!-- Drawer -->
+        <details class="section" open>
+          <summary><span class="step">4</span> Drawer (noticee)</summary>
+          <div class="grid">
+            <label>Drawer name<input id="drawerName" placeholder="e.g. M/s. Skyline Corporate Solutions Pvt. Ltd." required /></label>
+            <label>Drawer type
+              <select id="drawerType">
+                <option>Individual</option>
+                <option>Private Limited Company</option>
+                <option>Public Limited Company</option>
+                <option>Partnership Firm</option>
+                <option>LLP</option>
+                <option>Proprietorship</option>
+                <option>Trust / Society</option>
+              </select>
+            </label>
+            <label class="span2">Drawer address<textarea id="drawerAddress" rows="2" placeholder="Full postal address with PIN"></textarea></label>
+            <label class="span2" id="directorsWrap">Directors / partners / persons in charge <span class="opt">(Section 141, one per line: name, designation, address)</span>
+              <textarea id="drawerDirectors" rows="2" placeholder="Mr. X, Managing Director, [address]&#10;Ms. Y, Director, [address]"></textarea>
+            </label>
+            <label>Drawer email / phone <span class="opt">(optional)</span><input id="drawerContact" placeholder="For email service" /></label>
+            <label>Signatory of cheque <span class="opt">(optional)</span><input id="drawerSignatory" placeholder="Who signed the cheque" /></label>
+          </div>
+        </details>
+
+        <!-- Transaction -->
+        <details class="section" open>
+          <summary><span class="step">5</span> Debt / liability (transaction)</summary>
+          <div class="grid">
+            <label>Nature of transaction
+              <select id="txnType">
+                <option>Sale / supply of goods</option>
+                <option>Services / works contract</option>
+                <option>Friendly / personal loan</option>
+                <option>Bank / NBFC loan repayment</option>
+                <option>Refund of advance / consideration</option>
+                <option>Rent / lease dues</option>
+                <option>Settlement / compromise amount</option>
+                <option>Other</option>
+              </select>
+            </label>
+            <label>Total liability / outstanding (₹) <span class="opt">(if different from cheque)</span><input id="totalLiability" inputmode="decimal" placeholder="e.g. 9,75,000" /></label>
+            <label class="span2">Supporting documents <span class="opt">(invoice / PO / agreement / loan a/c: number and date)</span>
+              <textarea id="txnDocs" rows="2" placeholder="Work Order No. SCS/WO/2026/042 dated 15.05.2026; Completion Certificate dated 30.06.2026"></textarea>
+            </label>
+            <label class="span2">Facts of the transaction <span class="opt">(brief narrative in your words)</span>
+              <textarea id="txnFacts" rows="5" placeholder="How the relationship began, what was supplied / lent, how the cheque came to be issued, promises made…"></textarea>
+            </label>
+            <label class="span2">Reminders / follow-ups after dishonour <span class="opt">(optional)</span>
+              <input id="reminders" placeholder="e.g. calls and emails on 15.07.2026 and 22.07.2026" />
+            </label>
+          </div>
+        </details>
+
+        <!-- Cheque -->
+        <details class="section" open>
+          <summary><span class="step">6</span> Cheque &amp; dishonour</summary>
+          <div class="grid">
+            <label>Cheque number<input id="chequeNo" inputmode="numeric" placeholder="6-digit number" required /></label>
+            <label>Cheque date<input id="chequeDate" type="date" required /></label>
+            <label>Cheque amount (₹)<input id="chequeAmount" inputmode="decimal" placeholder="e.g. 9,75,000" required /></label>
+            <label>Amount in words <span class="opt">(auto)</span><input id="amountWords" readonly tabindex="-1" /></label>
+            <label>Drawee bank &amp; branch<input id="draweeBank" placeholder="e.g. Kotak Mahindra Bank, Cyber City Branch, Gurugram" required /></label>
+            <label>Drawer's account no. <span class="opt">(optional)</span><input id="drawerAccount" placeholder="Account number" /></label>
+            <label>Date of presentation<input id="presentDate" type="date" required /></label>
+            <label>Presenting (payee's) bank &amp; branch<input id="payeeBank" placeholder="e.g. HDFC Bank, Vashi Branch" /></label>
+            <label>Return memo date<input id="memoDate" type="date" required /></label>
+            <label>Date client received memo / intimation<input id="memoReceivedDate" type="date" /></label>
+            <label>Reason for dishonour
+              <select id="dishonourReason">
+                <option>Funds Insufficient</option>
+                <option>Exceeds Arrangement</option>
+                <option>Payment Stopped by Drawer</option>
+                <option>Account Closed</option>
+                <option>Drawer's Signature Differs / Incomplete</option>
+                <option>Account Blocked / Frozen</option>
+                <option>Refer to Drawer</option>
+                <option value="other">Other (type below)</option>
+              </select>
+            </label>
+            <label id="otherReasonWrap" hidden>Reason, exactly as on the memo<input id="otherReason" placeholder="Exact endorsement" /></label>
+          </div>
+        </details>
+
+        <!-- Demand -->
+        <details class="section" open>
+          <summary><span class="step">7</span> Demand &amp; drafting options</summary>
+          <div class="grid">
+            <label class="check span2"><input type="checkbox" id="claimInterest" /> Also claim interest (stated separately from the cheque amount)</label>
+            <label id="interestWrap" hidden>Interest rate (% p.a.)<input id="interestRate" inputmode="decimal" placeholder="e.g. 12" /></label>
+            <label>Cost of notice (₹) <span class="opt">(optional)</span><input id="noticeCost" inputmode="decimal" placeholder="e.g. 10,000" /></label>
+            <label>Tone
+              <select id="tone">
+                <option>Firm and formal (standard)</option>
+                <option>Strict / strongly worded</option>
+                <option>Measured, inviting amicable settlement</option>
+              </select>
+            </label>
+            <label>Language
+              <select id="language">
+                <option>English</option>
+                <option>Hindi</option>
+                <option>English with Hindi translation appended</option>
+              </select>
+            </label>
+            <label class="check span2"><input type="checkbox" id="reserveBNS" checked /> Reserve rights under the Bharatiya Nyaya Sanhita, 2023 and civil remedies</label>
+            <label class="span2">Additional instructions for the model <span class="opt">(optional)</span>
+              <textarea id="extraInstructions" rows="2" placeholder="e.g. mention that the cheque was given as part of a settlement dated …; keep it under 2 pages"></textarea>
+            </label>
+          </div>
+        </details>
+      </form>
+    </section>
+
+    <!-- ============ RIGHT: CHECKS + OUTPUT ============ -->
+    <section class="panel output-panel" aria-label="Draft notice">
+      <div class="checks" id="checks" aria-live="polite">
+        <h2>Limitation &amp; compliance check</h2>
+        <ul id="checkList"><li class="muted">Fill in the cheque dates to see the timelines.</li></ul>
+      </div>
+
+      <div class="generate-row">
+        <button class="btn primary big" id="generateBtn" type="button">Generate notice with AI</button>
+        <button class="btn ghost" id="quickBtn" type="button" title="Fill the standard format without calling the LLM">Quick draft (no AI)</button>
+      </div>
+      <p id="status" class="status" role="status"></p>
+
+      <div class="doc-toolbar" id="docToolbar" hidden>
+        <button class="btn small" id="copyBtn" type="button">Copy</button>
+        <button class="btn small" id="docBtn" type="button">Download .doc</button>
+        <button class="btn small" id="txtBtn" type="button">Download .txt</button>
+        <button class="btn small" id="printBtn" type="button">Print / PDF</button>
+        <span class="toolbar-note">You can click into the notice to edit it before downloading.</span>
+      </div>
+
+      <article id="noticeOutput" class="notice-paper empty" aria-label="Notice preview">
+        <div class="empty-state">
+          <p class="empty-title">Your notice will appear here</p>
+          <p>Fill in the case details, pick a reference template, and choose <strong>Generate notice with AI</strong>. <strong>Load sample case</strong> fills the form with an example.</p>
+        </div>
+      </article>
+
+      <div class="refine" id="refineBox" hidden>
+        <label for="refineInput">Ask the model to revise this draft</label>
+        <div class="refine-row">
+          <input id="refineInput" placeholder="e.g. add a paragraph on the Section 141 liability of the directors; make para 7 less aggressive" />
+          <button class="btn" id="refineBtn" type="button">Revise</button>
+        </div>
+      </div>
+
+      <p class="disclaimer">This is a drafting aid, not legal advice. An advocate must check every draft against the source documents before it is signed and sent.</p>
+    </section>
+  </main>
+
+  <!-- ============ SETTINGS DIALOG ============ -->
+  <dialog id="settingsDialog" aria-labelledby="settingsTitle">
+    <form method="dialog" id="settingsForm">
+      <h2 id="settingsTitle">LLM settings</h2>
+      <p class="hint">The app calls an OpenAI-compatible <code>/chat/completions</code> endpoint straight from your browser. Your key is sent only to the endpoint below.</p>
+      <label>API key<input id="apiKey" type="password" placeholder="sk-…" autocomplete="off" /></label>
+      <label class="check"><input type="checkbox" id="rememberKey" /> Remember key in this browser (localStorage)</label>
+      <label>Model<input id="model" list="modelList" /></label>
+      <datalist id="modelList">
+        <option value="gpt-5.4-mini"></option>
+        <option value="gpt-5.4"></option>
+        <option value="gpt-5.4-nano"></option>
+        <option value="gpt-5-mini"></option>
+      </datalist>
+      <label>API base URL<input id="baseUrl" placeholder="https://api.openai.com/v1" /></label>
+      <div class="grid">
+        <label>Reasoning effort
+          <select id="reasoningEffort">
+            <option value="">Model default (don't send)</option>
+            <option value="none">none</option>
+            <option value="minimal">minimal</option>
+            <option value="low">low</option>
+            <option value="medium">medium</option>
+            <option value="high">high</option>
+          </select>
+        </label>
+        <label>Max output tokens<input id="maxTokens" type="number" min="1000" step="500" /></label>
+      </div>
+      <div class="dialog-actions">
+        <button class="btn ghost" value="cancel" type="submit" formnovalidate>Cancel</button>
+        <button class="btn ghost" id="testConnBtn" type="button">Test connection</button>
+        <button class="btn primary" id="saveSettingsBtn" value="save" type="submit">Save</button>
+      </div>
+      <p id="settingsStatus" class="status"></p>
+    </form>
+  </dialog>
+
+  <!-- ============ TEMPLATE VIEWER ============ -->
+  <dialog id="templateDialog" aria-labelledby="templateDialogTitle" class="wide">
+    <form method="dialog">
+      <h2 id="templateDialogTitle">Template</h2>
+      <pre id="templateDialogBody" class="template-text"></pre>
+      <div class="dialog-actions"><button class="btn primary" type="submit">Close</button></div>
+    </form>
+  </dialog>
+
+  <script src="js/templates.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
