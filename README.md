@@ -1,51 +1,44 @@
-# Section 138 Notice Drafter
+# Section 138 Notice Desk
 
-A single-page HTML/CSS/JavaScript app that drafts a **first demand notice under Section 138 of the Negotiable Instruments Act, 1881** for a dishonoured cheque. By default it uses the `gpt-5.4-mini` model.
+An app that drafts **first demand notices under Section 138 of the Negotiable Instruments Act, 1881** for dishonoured cheques.
 
-## Run it
+It works in four steps:
 
-It needs no build step and no server. Open `index.html` in a browser, or serve the folder:
+1. **Documents.** Upload the cheque, the bank's return memo, invoices, agreements or letters (PDF, scanned PDF, JPG, PNG, DOCX or TXT). AI reads them and fills in the case details.
+2. **Case details.** Check and correct the parties, the debt, the cheque and the dishonour. A limitation panel shows the deadlines under Section 138(a), (b) and (c) and Section 142.
+3. **Draft notice.** Pick one of the four reference templates and generate the notice with AI, or use the standard format without AI. You can edit the notice on the page and ask the AI for revisions.
+4. **Download.** Save the notice as Word (.docx), PDF or plain text, or copy it.
 
-```bash
-python3 -m http.server 8000   # then open http://localhost:8000
-```
+The **History** tab keeps every notice you draft. From there you can open, download, copy into a new notice, or delete any of them, and back up or restore the whole list.
 
-1. Click **⚙ LLM settings** and paste your OpenAI API key. The model is `gpt-5.4-mini` by default and can be changed.
-2. Pick a reference template (A–D) and fill in the case details, or click **Load sample case**.
-3. Click **Generate notice with AI**. You can then edit the draft in place, ask for revisions, copy it, or download it as `.doc`, `.txt` or PDF (through Print).
+## Ways to open it
 
-**Quick draft (no AI)** builds the notice from the standard format without calling the API.
+| | How | AI engine | History saved in |
+|---|---|---|---|
+| **Desktop file** | Copy `desktop-shortcut/Section 138 Notice Desk.html` to your Desktop and double-click it | OpenAI GPT-5.4 mini with your API key | That browser on that computer |
+| **Online link** | https://claude.ai/artifact/C5xSdY7QyevxPULZDTxm36, or the `.url` (Windows) or `.webloc` (Mac) shortcut in `desktop-shortcut/` | Claude, on your Claude account (claude.ai links can't connect to OpenAI) | Your claude.ai account |
 
-## Features
+The desktop file needs an internet connection, both for the AI and for its helper libraries.
 
-- **Form inputs:** advocate letterhead, client (payee), drawer, directors under Section 141, the transaction and supporting documents, cheque and dishonour details, interest, notice cost, tone and language (English, Hindi, or English with a Hindi translation).
-- **Amount in words:** the Indian system (lakh and crore) is filled in automatically.
-- **Limitation checks:**
-  - whether the cheque was presented within its 3-month validity (s.138(a));
-  - the 30-day deadline for sending the notice (s.138(b));
-  - the 15-day payment window (s.138(c));
-  - the complaint window (s.142(1)(b)).
-- **Templates:** four reference templates in `js/templates.js`. The model copies their style and structure, never their facts. Real personal identifiers in templates B and C have been replaced with placeholders.
-- **Prompt rules:** the model uses only the facts you enter. Anything missing becomes a highlighted `[●]` placeholder. The cheque amount is demanded on its own, with interest and costs in separate paragraphs.
+### Using your OpenAI key (desktop file)
+1. Open the app, then go to **Settings**.
+2. Paste your OpenAI API key, and tick "Remember the key on this computer" if you want it kept.
+3. Click **Test connection**, then **Save AI settings**.
 
-## LLM settings
+The model is `gpt-5.4-mini` by default. You can also change the API address (any OpenAI-compatible endpoint works), the reasoning effort and the maximum output tokens.
 
-| Setting | Default | Notes |
-|---|---|---|
-| Model | `gpt-5.4-mini` | Any chat-completions model id |
-| API base URL | `https://api.openai.com/v1` | Any OpenAI-compatible endpoint works |
-| Reasoning effort | model default | Sent as `reasoning_effort` only if set |
-| Max output tokens | 6000 | Sent as `max_completion_tokens` |
-
-The browser calls the API directly. The key is kept in `sessionStorage`, or in `localStorage` if you tick *Remember key*. Use it only on a machine you trust. For a shared or public deployment, send the calls through a small backend proxy so the key never reaches the browser.
-
-## Files
+## For developers
 
 ```
-index.html        page structure and form
-css/styles.css    styling (light and dark, print layout for A4)
-js/templates.js   the four reference notices
-js/app.js         form logic, checks, prompt building, API call, export
+src/app.html                         the app (HTML, CSS and JS in one file)
+src/templates.js                     the four reference notices
+build.py                             builds the single-file app
+index.html                           built app (this is what is published)
+desktop-shortcut/…Notice Desk.html   same built app, for the desktop
 ```
 
-> This is a drafting aid, not legal advice. An advocate must review every notice before it is sent.
+After editing anything in `src/`, run `python3 build.py`.
+
+Helper libraries load from jsDelivr: pdf.js (reads PDFs), mammoth (reads Word files), JSZip (writes .docx) and jsPDF (writes PDF).
+
+> This is a drafting aid, not legal advice. Check every notice against the original documents before it is signed and sent.
