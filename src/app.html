@@ -642,10 +642,16 @@ OUTPUT: plain text only, with no markdown, asterisks or comments. Put a blank li
     renderHistory();
   }
   async function seedSamples() {
-    if (ls.get("s138.seeded")) return;
+    // Add each sample once; a sample the user deletes is not added back.
+    let done = ls.get("s138.seededIds", null);
+    if (!done) done = ls.get("s138.seeded") ? ["sample-1", "sample-2", "sample-3", "sample-4", "sample-5"] : [];
     const have = new Set(state.history.map((r) => r.id));
-    for (const s of SAMPLES) if (!have.has(s.id)) await Store.put(s);
-    ls.set("s138.seeded", true);
+    for (const s of SAMPLES) {
+      if (done.includes(s.id)) continue;
+      if (!have.has(s.id)) await Store.put(s);
+      done.push(s.id);
+    }
+    ls.set("s138.seededIds", done);
   }
   async function saveCurrent(text) {
     const d = data(), now = new Date().toISOString();
