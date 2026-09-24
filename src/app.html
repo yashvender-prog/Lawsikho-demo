@@ -6,214 +6,112 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&display=swap">
 <style>
 :root {
-  --bg: #eef1f4;
-  --surface: #ffffff;
-  --surface-2: #f6f8fa;
-  --line: #d9e0e6;
-  --line-strong: #bcc7d0;
-  --ink: #14202b;
-  --muted: #5b6977;
-  --accent: #0e5a4f;
-  --accent-hover: #0a473e;
-  --accent-ink: #ffffff;
-  --accent-soft: #e2efec;
-  --rail: #13232b;
-  --rail-ink: #c9d6dd;
-  --rail-active: #1f3a44;
-  --ok: #1d6b3f;
-  --ok-soft: #e4f2e9;
-  --warn: #8a5800;
-  --warn-soft: #fbf0d9;
-  --err: #a42a1e;
-  --err-soft: #fbe6e3;
-  --paper: #ffffff;
-  --paper-ink: #111111;
-  --mark: #fff0a8;
-  --mark-ink: #5c4300;
+  --bg: #eef1f4; --surface: #ffffff; --surface-2: #f6f8fa; --line: #d9e0e6; --line-strong: #bcc7d0;
+  --ink: #14202b; --muted: #5b6977; --accent: #0e5a4f; --accent-hover: #0a473e; --accent-ink: #ffffff; --accent-soft: #e2efec;
+  --bar: #13232b; --bar-ink: #c9d6dd; --gold: #d9b25c;
+  --ok: #1d6b3f; --ok-soft: #e4f2e9; --warn: #8a5800; --warn-soft: #fbf0d9; --err: #a42a1e; --err-soft: #fbe6e3;
+  --paper: #ffffff; --paper-ink: #111111; --mark: #fff0a8; --mark-ink: #5c4300;
   --shadow: 0 1px 2px rgba(20, 32, 43, .06), 0 6px 20px rgba(20, 32, 43, .05);
   --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
   --serif: "Newsreader", "Times New Roman", Georgia, serif;
-  --r: 10px;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #0e1418; --surface: #151d23; --surface-2: #1a242b; --line: #29353e; --line-strong: #3a4852;
-    --ink: #e5ebf0; --muted: #93a2ae; --accent: #5fbfad; --accent-hover: #7fd0c0; --accent-ink: #06201b;
-    --accent-soft: #15302b; --rail: #0a1013; --rail-ink: #a9b8c1; --rail-active: #17262d;
+    --ink: #e5ebf0; --muted: #93a2ae; --accent: #5fbfad; --accent-hover: #7fd0c0; --accent-ink: #06201b; --accent-soft: #15302b;
+    --bar: #0a1013; --bar-ink: #a9b8c1;
     --ok: #7fcf9f; --ok-soft: #16291e; --warn: #e3bd6c; --warn-soft: #2f2715; --err: #f09a8f; --err-soft: #361c19;
     --shadow: none; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #0e1418; --surface: #151d23; --surface-2: #1a242b; --line: #29353e; --line-strong: #3a4852;
-  --ink: #e5ebf0; --muted: #93a2ae; --accent: #5fbfad; --accent-hover: #7fd0c0; --accent-ink: #06201b;
-  --accent-soft: #15302b; --rail: #0a1013; --rail-ink: #a9b8c1; --rail-active: #17262d;
+  --ink: #e5ebf0; --muted: #93a2ae; --accent: #5fbfad; --accent-hover: #7fd0c0; --accent-ink: #06201b; --accent-soft: #15302b;
+  --bar: #0a1013; --bar-ink: #a9b8c1;
   --ok: #7fcf9f; --ok-soft: #16291e; --warn: #e3bd6c; --warn-soft: #2f2715; --err: #f09a8f; --err-soft: #361c19;
   --shadow: none; color-scheme: dark;
 }
-
 * { box-sizing: border-box; }
-html, body { margin: 0; height: 100%; }
+html, body { margin: 0; }
 body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 14px; line-height: 1.5; }
 button, input, select, textarea { font: inherit; color: inherit; }
-h1, h2, h3 { text-wrap: balance; margin: 0; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
 [hidden] { display: none !important; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 
-/* ---------- shell ---------- */
-.app { display: grid; grid-template-columns: 232px minmax(0, 1fr); min-height: 100%; }
-.rail { background: var(--rail); color: var(--rail-ink); display: flex; flex-direction: column; gap: 22px; padding: 22px 14px; position: sticky; top: 0; height: 100vh; }
-.brand { display: flex; gap: 10px; align-items: center; padding: 0 6px; }
-.seal { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid #d9b25c; color: #e6c476; display: grid; place-items: center; font-family: var(--serif); font-weight: 700; font-size: 19px; flex: none; }
-.brand-name { font-weight: 700; color: #fff; font-size: 14.5px; line-height: 1.2; }
-.brand-sub { font-size: 11.5px; color: var(--rail-ink); opacity: .8; }
-.nav { display: grid; gap: 4px; }
-.nav button { display: flex; align-items: center; gap: 10px; width: 100%; background: none; border: 0; color: var(--rail-ink); padding: 9px 12px; border-radius: 8px; cursor: pointer; font-weight: 500; text-align: left; }
-.nav button:hover { background: var(--rail-active); color: #fff; }
-.nav button[aria-current="page"] { background: var(--rail-active); color: #fff; box-shadow: inset 3px 0 0 #d9b25c; }
-.nav svg { width: 18px; height: 18px; flex: none; }
-.nav .count { margin-left: auto; font-family: var(--mono); font-size: 11.5px; background: rgba(255,255,255,.08); padding: 0 7px; border-radius: 999px; }
-.rail-foot { margin-top: auto; display: grid; gap: 8px; font-size: 12px; }
-.engine-chip { border: 1px solid rgba(255,255,255,.12); border-radius: 8px; padding: 9px 10px; display: grid; gap: 2px; cursor: pointer; background: none; color: inherit; text-align: left; }
-.engine-chip strong { color: #fff; font-weight: 600; font-size: 12.5px; }
-.dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 6px; background: #d9b25c; }
-.dot.on { background: #58c98b; }
+.bar { background: var(--bar); color: var(--bar-ink); position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; }
+.bar-in { max-width: 1080px; margin: 0 auto; padding: 12px 20px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; margin-right: auto; }
+.seal { width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--gold); color: var(--gold); display: grid; place-items: center; font-family: var(--serif); font-weight: 700; font-size: 18px; flex: none; }
+.brand b { color: #fff; font-size: 15px; display: block; line-height: 1.2; }
+.brand small { font-size: 12px; opacity: .8; }
+.tabs { display: flex; gap: 4px; }
+.tabs button { background: none; border: 0; color: var(--bar-ink); padding: 8px 14px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+.tabs button:hover { color: #fff; background: rgba(255,255,255,.06); }
+.tabs button[aria-selected="true"] { color: #fff; background: rgba(255,255,255,.10); box-shadow: inset 0 -2px 0 var(--gold); }
+.tabs .count { font-family: var(--mono); font-size: 11.5px; background: rgba(255,255,255,.12); border-radius: 999px; padding: 0 7px; margin-left: 6px; }
 
-main { min-width: 0; padding: 26px 32px 60px; }
-.view-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
-.view-head h1 { font-size: 22px; font-weight: 700; letter-spacing: -.01em; }
-.view-head p { margin: 2px 0 0; color: var(--muted); }
-.head-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.wrap { max-width: 1080px; margin: 0 auto; padding-block: 22px 60px; padding-inline: 20px; display: grid; gap: 16px; }
+@media (max-width: 600px) { .wrap { padding-inline: 16px; } .bar-in { padding: 10px 16px; } .brand small { display: none; } }
 
-@media (max-width: 900px) {
-  .app { grid-template-columns: 1fr; }
-  .rail { position: static; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 10px; padding: 10px 16px; }
-  .brand-sub, .rail-foot { display: none; }
-  .nav { grid-auto-flow: column; margin-left: auto; }
-  .nav button { padding: 7px 10px; }
-  .nav .label { display: none; }
-  main { padding: 18px 16px 48px; }
-}
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 20px 22px; }
+.card h2 { font-size: 16px; font-weight: 700; }
+.card .lede { color: var(--muted); font-size: 13px; margin: 2px 0 0; }
+.muted { color: var(--muted); }
 
-/* ---------- buttons ---------- */
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; border-radius: 8px; padding: 8px 14px; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); cursor: pointer; font-weight: 600; font-size: 13px; white-space: nowrap; }
-.btn:hover { border-color: var(--muted); }
-.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-.btn.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
-.btn.quiet { background: transparent; border-color: transparent; color: var(--muted); }
-.btn.quiet:hover { color: var(--ink); background: var(--surface-2); }
-.btn.danger { color: var(--err); }
-.btn.danger.armed { background: var(--err); border-color: var(--err); color: #fff; }
-.btn.lg { padding: 11px 20px; font-size: 14px; }
-.btn.sm { padding: 5px 10px; font-size: 12.5px; }
-.btn:disabled { opacity: .5; cursor: not-allowed; }
-.btn svg { width: 16px; height: 16px; }
+.keybar { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px 14px; align-items: center; padding: 14px 18px; }
+.keybar .lbl { font-weight: 700; font-size: 13.5px; }
+.keyrow { display: flex; gap: 8px; min-width: 0; }
+.keyrow input { flex: 1; min-width: 0; }
+.keyinfo { grid-column: 2; font-size: 12.8px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; }
+.keyinfo .model { display: inline-flex; gap: 6px; align-items: center; }
+.keyinfo .model input { width: 190px; padding: 3px 8px; font-size: 12.5px; font-family: var(--mono); }
+@media (max-width: 700px) { .keybar { grid-template-columns: 1fr; } .keyinfo { grid-column: 1; } }
 
-/* ---------- stepper ---------- */
-.stepper { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; margin-bottom: 20px; box-shadow: var(--shadow); }
-.stepper button { display: flex; gap: 10px; align-items: center; padding: 12px 16px; background: none; border: 0; border-right: 1px solid var(--line); cursor: pointer; text-align: left; min-width: 0; }
-.stepper button:last-child { border-right: 0; }
-.stepper .n { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-family: var(--mono); font-size: 12px; font-weight: 500; border: 1.5px solid var(--line-strong); color: var(--muted); flex: none; }
-.stepper .t { font-weight: 600; font-size: 13.5px; display: block; }
-.stepper .s { font-size: 12px; color: var(--muted); display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.stepper button[aria-current="step"] { background: var(--accent-soft); }
-.stepper button[aria-current="step"] .n { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-.stepper button.done .n { border-color: var(--accent); color: var(--accent); }
-@media (max-width: 760px) { .stepper { grid-template-columns: repeat(4, 1fr); } .stepper .s { display: none; } .stepper button { justify-content: center; padding: 10px 6px; flex-direction: column; gap: 4px; } .stepper .t { font-size: 12px; } }
-
-/* ---------- cards & forms ---------- */
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow); padding: 18px 20px; }
-.card + .card { margin-top: 14px; }
-.card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
-.card-head h2 { font-size: 15px; font-weight: 700; }
-.card-head p { margin: 0; color: var(--muted); font-size: 12.5px; }
-.eyebrow { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; }
-.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; }
-.grid2 .full { grid-column: 1 / -1; }
-@media (max-width: 620px) { .grid2 { grid-template-columns: 1fr; } }
+.sec { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 18px; padding: 18px 0; border-top: 1px solid var(--line); }
+.sec.first { border-top: 0; margin-top: 8px; }
+.sec h3 { font-size: 13.5px; font-weight: 700; }
+.sec h3 small { display: block; font-weight: 400; color: var(--muted); font-size: 12.3px; margin-top: 2px; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 14px; }
+.grid .full { grid-column: 1 / -1; }
+@media (max-width: 760px) { .sec { grid-template-columns: 1fr; gap: 10px; } }
+@media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
 .field { display: grid; gap: 5px; align-content: start; }
 .field > span { font-size: 12.5px; font-weight: 600; }
 .field > span em { font-style: normal; font-weight: 400; color: var(--muted); }
-.field > span .req { color: var(--err); font-weight: 700; }
-input[type="text"], input[type="date"], input[type="email"], input[type="password"], input[type="number"], input:not([type]), select, textarea {
-  width: 100%; min-width: 0; background: var(--surface-2); border: 1px solid var(--line); border-radius: 7px; padding: 8px 10px; font-size: 14px;
-}
+.field > span b { color: var(--err); }
+input, select, textarea { width: 100%; min-width: 0; background: var(--surface-2); border: 1px solid var(--line); border-radius: 7px; padding: 8px 10px; font-size: 14px; }
 textarea { resize: vertical; line-height: 1.45; }
 input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: transparent; background: var(--surface); }
-input[readonly] { color: var(--muted); }
 .invalid { border-color: var(--err) !important; background: var(--err-soft) !important; }
-.filled { box-shadow: inset 3px 0 0 var(--accent); }
-.check { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; cursor: pointer; }
-.check input { margin-top: 3px; accent-color: var(--accent); }
-.hint { color: var(--muted); font-size: 12.5px; margin: 0; }
-.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.field .words { font-size: 12.5px; font-weight: 400; color: var(--muted); min-height: 1.2em; }
+.deadline { grid-column: 1 / -1; font-size: 13px; border-radius: 8px; padding: 8px 12px; }
+.deadline.ok { background: var(--ok-soft); color: var(--ok); }
+.deadline.warn { background: var(--warn-soft); color: var(--warn); }
+.deadline.err { background: var(--err-soft); color: var(--err); }
 
-.split { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 18px; align-items: start; }
-.split .aside { position: sticky; top: 18px; display: grid; gap: 14px; }
-@media (max-width: 1100px) { .split { grid-template-columns: 1fr; } .split .aside { position: static; } }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 8px; padding: 8px 14px; border: 1px solid var(--line-strong); background: var(--surface); cursor: pointer; font-weight: 600; font-size: 13.5px; white-space: nowrap; }
+.btn:hover { border-color: var(--muted); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.primary:hover { background: var(--accent-hover); }
+.btn.big { width: 100%; padding: 14px 20px; font-size: 16px; border-radius: 10px; }
+.btn.danger { color: var(--err); }
+.btn.danger.armed { background: var(--err); border-color: var(--err); color: #fff; }
+.btn:disabled { opacity: .55; cursor: not-allowed; }
+.btn svg { width: 17px; height: 17px; }
+.status { font-size: 13px; color: var(--muted); text-align: center; margin: 8px 0 0; min-height: 1.3em; }
+.status.err { color: var(--err); }
+.status.ok { color: var(--ok); }
+.spinner { width: 14px; height: 14px; border: 2px solid var(--line); border-top-color: var(--accent); border-radius: 50%; display: inline-block; animation: spin .8s linear infinite; vertical-align: -2px; margin-right: 6px; }
+@keyframes spin { to { transform: rotate(360deg); } }
 
-.step-foot { display: flex; justify-content: space-between; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
-
-/* ---------- upload ---------- */
-.drop { display: block; border: 1.5px dashed var(--line-strong); border-radius: var(--r); background: var(--surface-2); padding: 28px 20px; text-align: center; cursor: pointer; transition: border-color .15s, background .15s; }
-.drop:hover, .drop.over { border-color: var(--accent); background: var(--accent-soft); }
-.drop svg { width: 34px; height: 34px; color: var(--accent); }
-.drop .hint { display: block; }
-.drop strong { display: block; font-size: 15px; margin: 6px 0 2px; }
-.drop .kinds { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: 12px; }
-.pill { font-size: 11.5px; padding: 2px 9px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); color: var(--muted); }
-.files { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 8px; }
-.file { display: grid; grid-template-columns: 34px minmax(0, 1fr) 170px auto; gap: 12px; align-items: center; border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px; background: var(--surface); }
-.file .ico { width: 34px; height: 34px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-family: var(--mono); font-size: 10px; font-weight: 500; text-transform: uppercase; }
-.file .nm, .file .meta { display: block; }
-.file .nm { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.file .meta { font-size: 12px; color: var(--muted); }
-.file .meta.bad { color: var(--err); }
-.file select { padding: 5px 8px; font-size: 12.5px; }
-@media (max-width: 620px) { .file { grid-template-columns: 34px minmax(0, 1fr) auto; } .file select { grid-column: 2 / -1; } }
-.extract-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 16px; }
-.note { border-radius: 8px; padding: 10px 12px; font-size: 13px; margin-top: 12px; }
-.note.ok { background: var(--ok-soft); color: var(--ok); }
-.note.warn { background: var(--warn-soft); color: var(--warn); }
-.note.err { background: var(--err-soft); color: var(--err); }
-.note.info { background: var(--surface-2); color: var(--muted); border: 1px solid var(--line); }
-.note ul { margin: 6px 0 0; padding-left: 18px; }
-
-/* ---------- checks ---------- */
-.checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
-.checks li { display: grid; grid-template-columns: 18px 1fr; gap: 6px; font-size: 12.8px; padding: 7px 9px; border-radius: 7px; }
-.checks li::before { font-weight: 700; text-align: center; }
-.checks .ok { background: var(--ok-soft); color: var(--ok); } .checks .ok::before { content: "✓"; }
-.checks .warn { background: var(--warn-soft); color: var(--warn); } .checks .warn::before { content: "!"; }
-.checks .err { background: var(--err-soft); color: var(--err); } .checks .err::before { content: "✕"; }
-.checks .info { background: var(--surface-2); color: var(--muted); } .checks .info::before { content: "i"; font-family: var(--serif); font-style: italic; }
-.timeline { display: grid; gap: 0; margin: 4px 0 0; }
-.timeline div { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 7px 0; border-bottom: 1px dashed var(--line); font-size: 12.8px; }
-.timeline div:last-child { border-bottom: 0; }
-.timeline span:first-child { color: var(--muted); }
-.timeline b { font-family: var(--mono); font-weight: 500; font-size: 12.5px; }
-
-/* ---------- templates ---------- */
-.tpls { display: grid; gap: 8px; }
-.tpl { display: grid; grid-template-columns: 18px 1fr; gap: 10px; border: 1.5px solid var(--line); border-radius: 8px; padding: 10px 12px; cursor: pointer; background: var(--surface); }
-.tpl:hover { border-color: var(--line-strong); }
-.tpl.sel { border-color: var(--accent); background: var(--accent-soft); }
-.tpl input { accent-color: var(--accent); margin-top: 3px; }
-.tpl b { display: block; font-size: 13px; }
-.tpl small { color: var(--muted); font-size: 12px; display: block; }
-.tpl .link { background: none; border: 0; padding: 0; color: var(--accent); font-size: 12px; cursor: pointer; text-decoration: underline; justify-self: start; margin-top: 3px; }
-
-/* ---------- paper ---------- */
-.draft-wrap { display: grid; grid-template-columns: 330px minmax(0, 1fr); gap: 18px; align-items: start; }
-@media (max-width: 1100px) { .draft-wrap { grid-template-columns: 1fr; } }
-.paper-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-.paper-bar .status { font-size: 12.8px; color: var(--muted); }
-.paper-bar .status.err { color: var(--err); }
-.paper-bar .status.ok { color: var(--ok); }
+.result-head { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.saved { font-size: 12.8px; color: var(--ok); }
 .paper-scroll { overflow-x: auto; }
-.paper { background: var(--paper); color: var(--paper-ink); border: 1px solid var(--line); border-radius: 3px; box-shadow: 0 8px 30px rgba(10, 20, 30, .10); padding: 56px 64px; font-family: var(--serif); font-size: 15.5px; line-height: 1.65; min-height: 560px; max-width: 820px; margin: 0 auto; overflow-wrap: anywhere; }
+.paper { background: var(--paper); color: var(--paper-ink); border: 1px solid var(--line); border-radius: 3px; box-shadow: 0 8px 30px rgba(10, 20, 30, .10); padding: 52px 60px; font-family: var(--serif); font-size: 15.5px; line-height: 1.65; max-width: 820px; margin: 0 auto; overflow-wrap: anywhere; }
 .paper:focus { outline: 2px solid var(--accent); outline-offset: 3px; }
 .paper p { margin: 0 0 12px; text-align: justify; }
 .paper p.left { text-align: left; }
@@ -221,554 +119,224 @@ input[readonly] { color: var(--muted); }
 .paper p.subject { font-weight: 700; text-align: left; }
 .paper p.num { padding-left: 2.1em; text-indent: -2.1em; }
 .paper .ph { background: var(--mark); color: var(--mark-ink); border-radius: 2px; padding: 0 2px; }
-.paper.empty { display: grid; place-items: center; font-family: var(--sans); color: #5b6977; text-align: center; }
-.paper.empty b { display: block; color: #14202b; font-size: 16px; margin-bottom: 4px; }
-.paper.busy { opacity: .55; }
-@media (max-width: 620px) { .paper { padding: 28px 20px; font-size: 14.5px; } }
-.revise { display: flex; gap: 8px; margin-top: 12px; max-width: 820px; margin-inline: auto; }
-.revise input { flex: 1; }
-.spinner { width: 14px; height: 14px; border: 2px solid var(--line); border-top-color: var(--accent); border-radius: 50%; display: inline-block; animation: spin .8s linear infinite; vertical-align: -2px; margin-right: 6px; }
-@keyframes spin { to { transform: rotate(360deg); } }
+.edit-hint { text-align: center; font-size: 12.5px; color: var(--muted); margin: 10px 0 0; }
+@media (max-width: 600px) { .paper { padding: 26px 18px; font-size: 14.5px; } }
 
-/* ---------- download ---------- */
-.dl-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 18px; align-items: start; }
-@media (max-width: 900px) { .dl-grid { grid-template-columns: 1fr; } }
-.summary { display: grid; gap: 0; }
-.summary div { display: grid; grid-template-columns: 150px 1fr; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 13.5px; }
-.summary div:last-child { border-bottom: 0; }
-.summary dt { color: var(--muted); }
-.summary dd { margin: 0; font-weight: 500; overflow-wrap: anywhere; }
-.formats { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
-.fmt { display: grid; gap: 6px; text-align: left; border: 1.5px solid var(--line); border-radius: var(--r); padding: 14px; background: var(--surface); cursor: pointer; }
-.fmt:hover { border-color: var(--accent); background: var(--accent-soft); }
-.fmt .ext { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--accent); }
-.fmt b { font-size: 14px; }
-.fmt small { color: var(--muted); font-size: 12px; }
-.fmt:disabled { opacity: .5; cursor: not-allowed; background: var(--surface-2); }
-.saved-line { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ok); margin-top: 14px; }
+.hist { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 900px) { .hist { grid-template-columns: 1fr; } }
+.hist-list { padding: 10px; display: grid; gap: 6px; max-height: calc(100vh - 130px); overflow: auto; }
+.item { display: grid; gap: 2px; text-align: left; background: none; border: 1px solid transparent; border-radius: 9px; padding: 10px 12px; cursor: pointer; width: 100%; margin-top: 4px; }
+.item:hover { background: var(--surface-2); }
+.item[aria-current="true"] { background: var(--accent-soft); border-color: var(--accent); }
+.item .who { font-weight: 600; font-size: 13.5px; }
+.item .sub { font-size: 12.3px; color: var(--muted); display: flex; gap: 8px; flex-wrap: wrap; }
+.item .amt { font-family: var(--mono); font-size: 12.3px; }
+.tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 0 7px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--line); color: var(--muted); }
+.empty { text-align: center; color: var(--muted); padding: 40px 16px; }
+.empty b { display: block; color: var(--ink); font-size: 15px; margin-bottom: 4px; }
 
-/* ---------- history ---------- */
-.toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 14px; }
-.toolbar input { max-width: 320px; }
-.table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow); }
-table { border-collapse: collapse; width: 100%; min-width: 760px; }
-th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: middle; font-size: 13.2px; }
-th { font-size: 11px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-weight: 600; background: var(--surface-2); }
-tr:last-child td { border-bottom: 0; }
-tbody tr:hover { background: var(--surface-2); }
-td .who { font-weight: 600; }
-td .sub { color: var(--muted); font-size: 12px; }
-td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.row-actions { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
-.tag { display: inline-block; font-size: 11.5px; font-weight: 600; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
-.tag.ok { background: var(--ok-soft); color: var(--ok); }
-.tag.warn { background: var(--warn-soft); color: var(--warn); }
-.tag.err { background: var(--err-soft); color: var(--err); }
-.tag.muted { background: var(--surface-2); color: var(--muted); border: 1px solid var(--line); }
-.empty-box { text-align: center; padding: 48px 20px; color: var(--muted); }
-.empty-box b { display: block; color: var(--ink); font-size: 15px; margin-bottom: 4px; }
-.menu { position: relative; }
-.menu-list { position: absolute; right: 0; top: calc(100% + 4px); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,.15); padding: 4px; z-index: 20; min-width: 150px; display: grid; }
-.menu-list button { background: none; border: 0; text-align: left; padding: 7px 10px; border-radius: 6px; cursor: pointer; font-size: 13px; }
-.menu-list button:hover { background: var(--surface-2); }
-
-/* ---------- settings ---------- */
-.settings { display: grid; gap: 14px; max-width: 860px; }
-.engines { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-@media (max-width: 620px) { .engines { grid-template-columns: 1fr; } }
-.engine { display: grid; grid-template-columns: 18px 1fr; gap: 10px; border: 1.5px solid var(--line); border-radius: var(--r); padding: 14px; cursor: pointer; }
-.engine.sel { border-color: var(--accent); background: var(--accent-soft); }
-.engine input { accent-color: var(--accent); margin-top: 3px; }
-.engine b { display: block; }
-.engine small { color: var(--muted); font-size: 12.5px; }
-
-/* ---------- dialog & toast ---------- */
-dialog { border: 1px solid var(--line); border-radius: 12px; padding: 0; width: min(820px, calc(100vw - 32px)); background: var(--surface); color: var(--ink); box-shadow: 0 30px 80px rgba(0,0,0,.3); }
-dialog::backdrop { background: rgba(10, 18, 24, .5); }
-.dlg-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid var(--line); }
-.dlg-body { padding: 16px 18px; max-height: 70vh; overflow: auto; }
-.dlg-body pre { white-space: pre-wrap; font-family: var(--serif); font-size: 14px; line-height: 1.6; margin: 0; }
 .toasts { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); display: grid; gap: 8px; z-index: 50; max-width: min(420px, calc(100vw - 32px)); }
 .toast { background: var(--ink); color: var(--bg); padding: 10px 14px; border-radius: 8px; font-size: 13px; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
 .toast.err { background: var(--err); color: #fff; }
-.disclaimer { color: var(--muted); font-size: 12px; margin-top: 26px; max-width: 820px; }
-
-@media print {
-  @page { size: A4; margin: 22mm 20mm; }
-  body { background: #fff; }
-  .rail, .view-head, .stepper, .draft-options, .paper-bar, .revise, .disclaimer, .toasts, #view-history, #view-settings, .step-panel:not(#step-3) { display: none !important; }
-  .app { display: block; } main { padding: 0; }
-  .draft-wrap { display: block; }
-  .paper { border: 0; box-shadow: none; padding: 0; max-width: none; font-family: "Times New Roman", serif; font-size: 12pt; }
-  .paper .ph { background: none; color: inherit; }
-}
+.foot { color: var(--muted); font-size: 12px; text-align: center; }
 </style>
 
-<div class="app">
-  <aside class="rail">
-    <div class="brand">
-      <div class="seal" aria-hidden="true">§</div>
-      <div>
-        <div class="brand-name">Section 138<br>Notice Desk</div>
-        <div class="brand-sub">NI Act, 1881 · demand notices</div>
-      </div>
-    </div>
-    <nav class="nav" aria-label="Main">
-      <button type="button" data-view="new" aria-current="page">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg>
-        <span class="label">New notice</span>
-      </button>
-      <button type="button" data-view="history">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg>
-        <span class="label">History</span><span class="count mono" id="historyCount">0</span>
-      </button>
-      <button type="button" data-view="settings">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
-        <span class="label">Settings</span>
-      </button>
+<header class="bar">
+  <div class="bar-in">
+    <div class="brand"><div class="seal" aria-hidden="true">§</div><div><b>Section 138 Notice Desk</b><small>Demand notices for cheque dishonour · NI Act, 1881</small></div></div>
+    <nav class="tabs" role="tablist" aria-label="Main">
+      <button type="button" role="tab" id="tabDraft" aria-selected="true" aria-controls="viewDraft">Draft notice</button>
+      <button type="button" role="tab" id="tabHistory" aria-selected="false" aria-controls="viewHistory">History<span class="count" id="histCount">0</span></button>
     </nav>
-    <div class="rail-foot">
-      <button type="button" class="engine-chip" id="engineChip" title="Change AI settings">
-        <span class="eyebrow" style="color:inherit;opacity:.7">AI engine</span>
-        <strong id="engineChipName">GPT-5.4 mini</strong>
-        <span><span class="dot" id="engineDot"></span><span id="engineChipState">No API key</span></span>
-      </button>
-      <span style="opacity:.7" id="storageNote">History is saved in this browser</span>
+  </div>
+</header>
+
+<!-- ======================= DRAFT ======================= -->
+<main class="wrap" id="viewDraft" role="tabpanel" aria-labelledby="tabDraft">
+
+  <section class="card keybar" aria-label="API key">
+    <span class="lbl">API key</span>
+    <div class="keyrow">
+      <input id="apiKey" type="password" placeholder="Paste your OpenAI (sk-…) or Google Gemini key here" autocomplete="off" spellcheck="false">
+      <button type="button" class="btn" id="showKey">Show</button>
+      <button type="button" class="btn primary" id="saveKey">Save key</button>
     </div>
-  </aside>
+    <div class="keyinfo">
+      <span id="keyState">No key saved yet.</span>
+      <label class="model">Model <input id="model" spellcheck="false" aria-label="Model"></label>
+    </div>
+  </section>
 
-  <main>
-    <!-- ================= NEW NOTICE ================= -->
-    <section id="view-new">
-      <div class="view-head">
-        <div>
-          <h1 id="newTitle">New demand notice</h1>
-          <p id="newSub">Upload the case papers, check the details, and draft the notice under Section 138.</p>
-        </div>
-        <div class="head-actions">
-          <button type="button" class="btn" id="sampleBtn">Try a sample case</button>
-          <button type="button" class="btn" id="newNoticeBtn">Start a new notice</button>
-        </div>
+  <form class="card" id="caseForm" autocomplete="off" novalidate>
+    <h2>Case details</h2>
+    <p class="lede">Fill in what's on the cheque and the bank's return memo. Fields marked <b style="color:var(--err)">*</b> are needed to draft the notice.</p>
+
+    <div class="sec first">
+      <h3>Your client<small>Who the cheque was payable to</small></h3>
+      <div class="grid">
+        <label class="field"><span>Client name <b>*</b></span><input id="clientName" placeholder="M/s. Shree Ganesh Steel Traders"></label>
+        <label class="field"><span>Client address</span><input id="clientAddress" placeholder="Address, and who acts for a firm"></label>
       </div>
+    </div>
 
-      <nav class="stepper" aria-label="Steps">
-        <button type="button" data-step="1" aria-current="step"><span class="n">1</span><span><span class="t">Documents</span><span class="s">Upload cheque, memo, invoice</span></span></button>
-        <button type="button" data-step="2"><span class="n">2</span><span><span class="t">Case details</span><span class="s">Parties, cheque, dishonour</span></span></button>
-        <button type="button" data-step="3"><span class="n">3</span><span><span class="t">Draft notice</span><span class="s">Generate, edit and revise</span></span></button>
-        <button type="button" data-step="4"><span class="n">4</span><span><span class="t">Download</span><span class="s">Word, PDF or text</span></span></button>
-      </nav>
-
-      <!-- STEP 1 -->
-      <div class="step-panel" id="step-1">
-        <div class="split">
-          <div>
-            <div class="card">
-              <div class="card-head">
-                <h2>Upload case documents</h2>
-                <p>Optional. AI reads them and fills in step 2 for you.</p>
-              </div>
-              <label class="drop" id="dropZone" for="fileInput">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
-                <strong>Drop files here or click to browse</strong>
-                <span class="hint">PDF, photos (JPG, PNG) and Word (.docx) files work, including scanned PDFs.</span>
-                <span class="kinds"><span class="pill">Cheque</span><span class="pill">Bank return memo</span><span class="pill">Invoice / bill</span><span class="pill">Agreement</span><span class="pill">Loan papers</span><span class="pill">Emails / letters</span></span>
-              </label>
-              <input type="file" id="fileInput" multiple accept=".pdf,.png,.jpg,.jpeg,.webp,.docx,.txt" hidden>
-              <ul class="files" id="fileList"></ul>
-              <div class="extract-bar">
-                <button type="button" class="btn primary" id="extractBtn" disabled>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z"/></svg>
-                  Read documents and fill the form
-                </button>
-                <span class="hint" id="extractStatus"></span>
-              </div>
-              <div id="extractResult"></div>
-            </div>
-          </div>
-          <div class="aside">
-            <div class="card">
-              <div class="eyebrow">How it works</div>
-              <ol style="margin:10px 0 0;padding-left:18px;display:grid;gap:8px;font-size:13px">
-                <li>Upload the cheque, the bank's return memo and the papers that prove the debt.</li>
-                <li>AI fills in the case details. You check and correct them.</li>
-                <li>Pick a reference template and generate the notice.</li>
-                <li>Download it as Word or PDF. Every notice is saved in History.</li>
-              </ol>
-            </div>
-            <div class="note info" style="margin:0">No documents? Choose <b>Next</b> and type the details yourself.</div>
-          </div>
-        </div>
-        <div class="step-foot">
-          <span></span>
-          <button type="button" class="btn primary lg" data-go="2">Next: case details →</button>
-        </div>
+    <div class="sec">
+      <h3>Drawer<small>Who signed the cheque (the noticee)</small></h3>
+      <div class="grid">
+        <label class="field"><span>Drawer name <b>*</b></span><input id="drawerName" placeholder="M/s. Kapoor Infrabuild Pvt. Ltd."></label>
+        <label class="field"><span>Drawer address</span><input id="drawerAddress" placeholder="Full address with PIN code"></label>
+        <label class="field full"><span>Directors / partners <em>(if a company or firm, one per line)</em></span><textarea id="drawerDirectors" rows="2" placeholder="Mr. Sanjay Kapoor, Managing Director, address"></textarea></label>
       </div>
+    </div>
 
-      <!-- STEP 2 -->
-      <div class="step-panel" id="step-2" hidden>
-        <form id="caseForm" autocomplete="off" novalidate>
-          <div class="split">
-            <div>
-              <div class="card">
-                <div class="card-head"><h2>Your client (payee)</h2><p>The person or company the cheque was made out to</p></div>
-                <div class="grid2">
-                  <label class="field"><span>Client name <b class="req">*</b></span><input id="clientName" placeholder="M/s. Shree Ganesh Steel Traders"></label>
-                  <label class="field"><span>Client type</span><select id="clientType"></select></label>
-                  <label class="field full"><span>Client address</span><input id="clientAddress" placeholder="Registered office or residence"></label>
-                  <label class="field"><span>Business / background <em>(optional)</em></span><input id="clientBusiness" placeholder="wholesale trading of steel"></label>
-                  <label class="field"><span>Acting through <em>(if company or firm)</em></span><input id="clientRep" placeholder="its Managing Partner, Mr. …"></label>
-                </div>
-              </div>
-
-              <div class="card">
-                <div class="card-head"><h2>Drawer (noticee)</h2><p>The person or company who signed the cheque</p></div>
-                <div class="grid2">
-                  <label class="field"><span>Drawer name <b class="req">*</b></span><input id="drawerName" placeholder="M/s. Kapoor Infrabuild Pvt. Ltd."></label>
-                  <label class="field"><span>Drawer type</span><select id="drawerType"></select></label>
-                  <label class="field full"><span>Drawer address</span><textarea id="drawerAddress" rows="2" placeholder="Full postal address with PIN code"></textarea></label>
-                  <label class="field full" id="directorsField"><span>Directors / partners in charge <em>(Section 141, one per line)</em></span><textarea id="drawerDirectors" rows="2" placeholder="Mr. X, Managing Director, address"></textarea></label>
-                  <label class="field"><span>Email or phone <em>(optional)</em></span><input id="drawerContact"></label>
-                  <label class="field"><span>Who signed the cheque <em>(optional)</em></span><input id="drawerSignatory"></label>
-                </div>
-              </div>
-
-              <div class="card">
-                <div class="card-head"><h2>The debt</h2><p>Why the money is owed</p></div>
-                <div class="grid2">
-                  <label class="field"><span>Nature of transaction</span><select id="txnType"></select></label>
-                  <label class="field"><span>Total amount outstanding (₹) <em>(if different)</em></span><input id="totalLiability" inputmode="decimal"></label>
-                  <label class="field full"><span>Supporting documents <em>(invoice, PO, agreement: number and date)</em></span><textarea id="txnDocs" rows="2"></textarea></label>
-                  <label class="field full"><span>Facts of the transaction</span><textarea id="txnFacts" rows="5" placeholder="How the dealings began, what was supplied or lent, how and why the cheque was handed over…"></textarea></label>
-                  <label class="field full"><span>Reminders after dishonour <em>(optional)</em></span><input id="reminders" placeholder="calls and email dated 12.09.2026"></label>
-                </div>
-              </div>
-
-              <div class="card">
-                <div class="card-head"><h2>Cheque and dishonour</h2><p>Copy these exactly from the cheque and the return memo</p></div>
-                <div class="grid2">
-                  <label class="field"><span>Cheque number <b class="req">*</b></span><input id="chequeNo" inputmode="numeric" class="mono"></label>
-                  <label class="field"><span>Cheque date <b class="req">*</b></span><input id="chequeDate" type="date"></label>
-                  <label class="field"><span>Cheque amount (₹) <b class="req">*</b></span><input id="chequeAmount" inputmode="decimal" class="mono"></label>
-                  <label class="field"><span>Amount in words <em>(automatic)</em></span><input id="amountWords" readonly tabindex="-1"></label>
-                  <label class="field"><span>Drawn on (bank and branch) <b class="req">*</b></span><input id="draweeBank" placeholder="ICICI Bank, Vijay Nagar Branch, Indore"></label>
-                  <label class="field"><span>Drawer's account no. <em>(optional)</em></span><input id="drawerAccount" class="mono"></label>
-                  <label class="field"><span>Date presented <b class="req">*</b></span><input id="presentDate" type="date"></label>
-                  <label class="field"><span>Presented through (client's bank)</span><input id="payeeBank"></label>
-                  <label class="field"><span>Return memo date <b class="req">*</b></span><input id="memoDate" type="date"></label>
-                  <label class="field"><span>Date client received memo</span><input id="memoReceivedDate" type="date"></label>
-                  <label class="field"><span>Reason for dishonour</span><select id="dishonourReason"></select></label>
-                  <label class="field" id="otherReasonField" hidden><span>Reason as written on the memo</span><input id="otherReason"></label>
-                </div>
-              </div>
-
-              <div class="card">
-                <div class="card-head"><h2>Demand</h2></div>
-                <div class="grid2">
-                  <label class="check full"><input type="checkbox" id="claimInterest"> Also claim interest, stated separately from the cheque amount</label>
-                  <label class="field" id="interestField" hidden><span>Interest rate (% per year)</span><input id="interestRate" inputmode="decimal"></label>
-                  <label class="field"><span>Cost of notice (₹) <em>(optional)</em></span><input id="noticeCost" inputmode="decimal"></label>
-                  <label class="check full"><input type="checkbox" id="reserveBNS" checked> Reserve civil remedies and rights under the Bharatiya Nyaya Sanhita, 2023</label>
-                </div>
-              </div>
-
-              <div class="card">
-                <div class="card-head"><h2>Advocate and dispatch</h2><p>Filled in from your letterhead in Settings</p></div>
-                <div class="grid2">
-                  <label class="field"><span>Advocate name</span><input id="advName"></label>
-                  <label class="field"><span>Designation / enrolment</span><input id="advDesignation"></label>
-                  <label class="field full"><span>Office address</span><input id="advAddress"></label>
-                  <label class="field"><span>Phone</span><input id="advPhone"></label>
-                  <label class="field"><span>Email</span><input id="advEmail" type="email"></label>
-                  <label class="field"><span>Date of notice</span><input id="noticeDate" type="date"></label>
-                  <label class="field"><span>Mode of dispatch</span><select id="dispatchMode"></select></label>
-                  <label class="field"><span>Reference no. <em>(optional)</em></span><input id="refNo"></label>
-                </div>
-              </div>
-            </div>
-
-            <div class="aside">
-              <div class="card">
-                <div class="card-head" style="margin-bottom:10px"><h2>Limitation check</h2></div>
-                <div class="timeline" id="timeline"></div>
-                <ul class="checks" id="checkList" style="margin-top:10px"></ul>
-              </div>
-            </div>
-          </div>
-        </form>
-        <div class="step-foot">
-          <button type="button" class="btn" data-go="1">← Documents</button>
-          <button type="button" class="btn primary lg" data-go="3">Next: draft notice →</button>
-        </div>
+    <div class="sec">
+      <h3>The debt<small>Why the money is owed</small></h3>
+      <div class="grid">
+        <label class="field full"><span>What was the cheque given for? <b>*</b></span><textarea id="facts" rows="4" placeholder="e.g. Supply of steel under Invoice No. 211 dated 02.06.2026. Goods delivered and accepted. Cheque given against the unpaid bill. Reminders on 12.09.2026 ignored."></textarea></label>
       </div>
+    </div>
 
-      <!-- STEP 3 -->
-      <div class="step-panel" id="step-3" hidden>
-        <div class="draft-wrap">
-          <div class="draft-options">
-            <div class="card">
-              <div class="card-head"><h2>Reference template</h2></div>
-              <div class="tpls" id="tplList" role="radiogroup" aria-label="Reference template"></div>
-              <label class="check" style="margin-top:10px"><input type="checkbox" id="useAllTemplates"> Show the AI all four templates</label>
-            </div>
-            <div class="card">
-              <div class="grid2" style="grid-template-columns:1fr">
-                <label class="field"><span>Tone</span><select id="tone"></select></label>
-                <label class="field"><span>Language</span><select id="language"></select></label>
-                <label class="field"><span>Extra instructions <em>(optional)</em></span><textarea id="extraInstructions" rows="3" placeholder="e.g. keep it to 2 pages; mention the settlement dated …"></textarea></label>
-              </div>
-              <div style="display:grid;gap:8px;margin-top:14px">
-                <button type="button" class="btn primary lg" id="generateBtn">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z"/></svg>
-                  Generate notice with AI
-                </button>
-                <button type="button" class="btn" id="standardBtn">Use standard format (no AI)</button>
-                <button type="button" class="btn quiet" id="stopBtn" hidden>Stop</button>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <div class="paper-bar">
-              <span class="status" id="draftStatus">Nothing drafted yet.</span>
-              <span style="display:flex;gap:6px;flex-wrap:wrap">
-                <button type="button" class="btn sm" id="saveDraftBtn" disabled>Save changes</button>
-                <button type="button" class="btn sm primary" data-go="4" id="toDownloadBtn" disabled>Download →</button>
-              </span>
-            </div>
-            <div class="paper-scroll">
-              <article class="paper empty" id="paper" aria-label="Notice">
-                <div><b>The notice will appear here</b>Choose <i>Generate notice with AI</i>. When it's ready, click into the page to edit it.</div>
-              </article>
-            </div>
-            <div class="revise" id="reviseBox" hidden>
-              <input id="reviseInput" placeholder="Ask for a change, e.g. make para 6 shorter, or add the Section 141 liability of the directors">
-              <button type="button" class="btn" id="reviseBtn">Revise</button>
-            </div>
-          </div>
-        </div>
+    <div class="sec">
+      <h3>Cheque</h3>
+      <div class="grid">
+        <label class="field"><span>Cheque number <b>*</b></span><input id="chequeNo" inputmode="numeric"></label>
+        <label class="field"><span>Cheque date <b>*</b></span><input id="chequeDate" type="date"></label>
+        <label class="field"><span>Amount (₹) <b>*</b></span><input id="chequeAmount" inputmode="decimal" placeholder="6,48,500"><span class="words" id="amountWords"></span></label>
+        <label class="field"><span>Bank and branch <b>*</b></span><input id="draweeBank" placeholder="ICICI Bank, Vijay Nagar Branch, Indore"></label>
       </div>
+    </div>
 
-      <!-- STEP 4 -->
-      <div class="step-panel" id="step-4" hidden>
-        <div class="dl-grid">
-          <div class="card">
-            <div class="card-head"><h2>Notice summary</h2><span class="tag muted" id="dlSavedTag">Not saved</span></div>
-            <dl class="summary" id="dlSummary"></dl>
-          </div>
-          <div class="card">
-            <div class="card-head"><h2>Download the notice</h2><p id="dlHint">Word is best if you want to edit it or print it on your letterhead.</p></div>
-            <div class="formats">
-              <button type="button" class="fmt" data-fmt="docx"><span class="ext">.DOCX</span><b>Word document</b><small>Edit in Word or Google Docs</small></button>
-              <button type="button" class="fmt" data-fmt="pdf"><span class="ext">.PDF</span><b>PDF</b><small>Ready to print and sign (A4)</small></button>
-              <button type="button" class="fmt" data-fmt="txt"><span class="ext">.TXT</span><b>Plain text</b><small>For email or other software</small></button>
-              <button type="button" class="fmt" data-fmt="copy"><span class="ext">COPY</span><b>Copy text</b><small>Paste it anywhere</small></button>
-              <button type="button" class="fmt" data-fmt="print" id="printFmt"><span class="ext">PRINT</span><b>Print</b><small>Send to your printer</small></button>
-            </div>
-            <div class="note warn" id="dlPlaceholders" hidden></div>
-            <div class="saved-line" id="dlSavedLine" hidden>✓ Saved in History. You can open or download it there any time.</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px">
-              <button type="button" class="btn" data-go="3">← Back to edit</button>
-              <button type="button" class="btn" data-view-link="history">Open History</button>
-              <button type="button" class="btn primary" id="dlNewBtn">Start a new notice</button>
-            </div>
-          </div>
-        </div>
+    <div class="sec">
+      <h3>Dishonour<small>From the return memo</small></h3>
+      <div class="grid">
+        <label class="field"><span>Date presented <b>*</b></span><input id="presentDate" type="date"></label>
+        <label class="field"><span>Return memo date <b>*</b></span><input id="memoDate" type="date"></label>
+        <label class="field"><span>Reason on the memo <b>*</b></span>
+          <select id="reason">
+            <option>Funds Insufficient</option><option>Exceeds Arrangement</option><option>Payment Stopped by Drawer</option>
+            <option>Account Closed</option><option>Drawer's Signature Differs</option><option>Account Blocked / Frozen</option><option>Refer to Drawer</option><option value="Other">Other…</option>
+          </select>
+        </label>
+        <label class="field"><span>Date client received the memo <em>(if later)</em></span><input id="memoReceivedDate" type="date"></label>
+        <label class="field full" id="otherReasonField" hidden><span>Reason exactly as written on the memo</span><input id="otherReason"></label>
+        <div class="deadline" id="deadline" hidden></div>
       </div>
+    </div>
 
-      <p class="disclaimer">This is a drafting aid, not legal advice. Check every notice against the original documents before it is signed and sent.</p>
+    <div class="sec">
+      <h3>Demand<small>Optional extras</small></h3>
+      <div class="grid">
+        <label class="field"><span>Interest (% per year) <em>(optional)</em></span><input id="interestRate" inputmode="decimal" placeholder="e.g. 18"></label>
+        <label class="field"><span>Cost of notice (₹) <em>(optional)</em></span><input id="noticeCost" inputmode="decimal" placeholder="e.g. 5,500"></label>
+      </div>
+    </div>
+
+    <div class="sec">
+      <h3>Advocate<small>Remembered for next time</small></h3>
+      <div class="grid">
+        <label class="field"><span>Advocate name</span><input id="advName"></label>
+        <label class="field"><span>Phone and email</span><input id="advContact"></label>
+        <label class="field full"><span>Designation and office address</span><textarea id="advDetails" rows="2" placeholder="Advocate, High Court of M.P.&#10;Chamber No. 14, M.G. Road, Indore - 452001"></textarea></label>
+        <label class="field"><span>Date of notice</span><input id="noticeDate" type="date"></label>
+        <label class="field"><span>Sent by</span>
+          <select id="dispatchMode"><option>BY REGISTERED POST A.D.</option><option>BY SPEED POST</option><option>BY REGISTERED POST A.D. AND EMAIL</option><option>BY SPEED POST AND EMAIL</option><option>BY COURIER AND EMAIL</option></select>
+        </label>
+        <label class="field full"><span>Drafting style</span><select id="style"></select></label>
+      </div>
+    </div>
+  </form>
+
+  <div>
+    <button type="button" class="btn primary big" id="generateBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z"/></svg>
+      Generate notice
+    </button>
+    <p class="status" id="genStatus"></p>
+  </div>
+
+  <section class="card" id="resultCard" hidden>
+    <div class="result-head">
+      <div><h2>Your notice</h2><span class="saved" id="savedNote"></span></div>
+      <div class="actions">
+        <button type="button" class="btn primary" id="pdfBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Download PDF</button>
+        <button type="button" class="btn" id="copyBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>Copy text</button>
+      </div>
+    </div>
+    <div class="paper-scroll"><article class="paper" id="paper" contenteditable="true" spellcheck="true" aria-label="Notice text"></article></div>
+    <p class="edit-hint">Click anywhere on the notice to edit it. Your edits are saved to History. Use <b>Copy text</b> to paste it into Word.</p>
+  </section>
+
+  <p class="foot">This is a drafting aid, not legal advice. Check every notice against the original documents before signing.</p>
+</main>
+
+<!-- ======================= HISTORY ======================= -->
+<main class="wrap" id="viewHistory" role="tabpanel" aria-labelledby="tabHistory" hidden>
+  <div class="hist">
+    <section class="card hist-list" aria-label="Saved notices">
+      <input type="text" id="histSearch" placeholder="Search client, drawer or cheque no." aria-label="Search">
+      <div id="histItems"></div>
     </section>
-
-    <!-- ================= HISTORY ================= -->
-    <section id="view-history" hidden>
-      <div class="view-head">
-        <div><h1>History</h1><p id="historySub">Every notice you draft is saved here.</p></div>
-        <div class="head-actions">
-          <button type="button" class="btn" id="exportBtn">Back up all notices</button>
-          <button type="button" class="btn" id="importBtn">Restore from backup</button>
-          <input type="file" id="importInput" accept=".json,application/json" hidden>
+    <section class="card" id="histView">
+      <div class="empty" id="histEmpty"><b>No notice selected</b>Pick a notice on the left to read it, download it or copy it.</div>
+      <div id="histDetail" hidden>
+        <div class="result-head">
+          <div><h2 id="hvTitle"></h2><span class="muted" id="hvMeta" style="font-size:12.8px"></span></div>
+          <div class="actions">
+            <button type="button" class="btn primary" id="hvPdf">Download PDF</button>
+            <button type="button" class="btn" id="hvCopy">Copy text</button>
+            <button type="button" class="btn" id="hvEdit">Open in form</button>
+            <button type="button" class="btn danger" id="hvDelete">Delete</button>
+          </div>
         </div>
-      </div>
-      <div class="toolbar">
-        <input type="text" id="historySearch" placeholder="Search by client, drawer or cheque number" aria-label="Search history">
-        <span class="hint" id="historyInfo"></span>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Saved</th><th>Client → Drawer</th><th>Cheque</th><th>Amount</th><th>Send notice by</th><th style="text-align:right">Actions</th></tr></thead>
-          <tbody id="historyBody"></tbody>
-        </table>
-        <div class="empty-box" id="historyEmpty" hidden><b>No notices yet</b>Notices you generate are saved here automatically.</div>
+        <div class="paper-scroll"><article class="paper" id="hvPaper" aria-label="Saved notice"></article></div>
       </div>
     </section>
+  </div>
+</main>
 
-    <!-- ================= SETTINGS ================= -->
-    <section id="view-settings" hidden>
-      <div class="view-head"><div><h1>Settings</h1><p>Your AI connection and letterhead.</p></div></div>
-      <div class="settings">
-        <div class="card">
-          <div class="card-head"><h2>AI engine</h2></div>
-          <div class="engines" role="radiogroup" aria-label="AI engine">
-            <label class="engine" id="engOpenaiCard"><input type="radio" name="engine" value="openai" id="engOpenai"><span><b>OpenAI GPT (your API key)</b><small>Uses GPT-5.4 mini by default. Works in the desktop file and when you run the app yourself.</small></span></label>
-            <label class="engine" id="engClaudeCard"><input type="radio" name="engine" value="claude" id="engClaude"><span><b>Claude (built into claude.ai)</b><small>No key needed. Runs on your Claude account, and only when the app is opened from its claude.ai link.</small></span></label>
-          </div>
-          <div class="note warn" id="engineWarn" hidden></div>
-        </div>
-
-        <div class="card" id="openaiCard">
-          <div class="card-head"><h2>OpenAI connection</h2><p>Your key is sent only to the API address below.</p></div>
-          <div class="grid2">
-            <label class="field full"><span>API key</span><input id="apiKey" type="password" placeholder="sk-…" autocomplete="off"></label>
-            <label class="check full"><input type="checkbox" id="rememberKey"> Remember the key on this computer</label>
-            <label class="field"><span>Model</span><input id="model" list="modelList" class="mono"></label>
-            <datalist id="modelList"><option value="gpt-5.4-mini"></option><option value="gpt-5.4"></option><option value="gpt-5.4-nano"></option><option value="gpt-5-mini"></option></datalist>
-            <label class="field"><span>Reasoning effort</span>
-              <select id="reasoningEffort"><option value="">Model default</option><option value="none">none</option><option value="minimal">minimal</option><option value="low">low</option><option value="medium">medium</option><option value="high">high</option></select>
-            </label>
-            <label class="field"><span>API address</span><input id="baseUrl" class="mono"></label>
-            <label class="field"><span>Max output tokens</span><input id="maxTokens" type="number" min="1000" step="500" class="mono"></label>
-          </div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;align-items:center">
-            <button type="button" class="btn primary" id="saveAiBtn">Save AI settings</button>
-            <button type="button" class="btn" id="testBtn">Test connection</button>
-            <span class="hint" id="testStatus"></span>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-head"><h2>Your letterhead</h2><p>Added to every new notice</p></div>
-          <div class="grid2">
-            <label class="field"><span>Advocate name</span><input id="lhName"></label>
-            <label class="field"><span>Designation / enrolment</span><input id="lhDesignation" placeholder="Advocate, High Court of M.P."></label>
-            <label class="field full"><span>Office address</span><input id="lhAddress"></label>
-            <label class="field"><span>Phone</span><input id="lhPhone"></label>
-            <label class="field"><span>Email</span><input id="lhEmail" type="email"></label>
-            <label class="field"><span>Default dispatch mode</span><select id="lhDispatch"></select></label>
-          </div>
-          <div style="margin-top:14px"><button type="button" class="btn primary" id="saveLhBtn">Save letterhead</button></div>
-        </div>
-
-        <div class="card">
-          <div class="card-head"><h2>Saved notices</h2><p id="storageDetail"></p></div>
-          <button type="button" class="btn danger" id="clearHistoryBtn">Delete all saved notices</button>
-        </div>
-      </div>
-    </section>
-  </main>
-</div>
-
-<dialog id="tplDialog" aria-labelledby="tplDialogTitle">
-  <div class="dlg-head"><h2 id="tplDialogTitle" style="font-size:16px">Template</h2><button type="button" class="btn sm" id="tplDialogClose">Close</button></div>
-  <div class="dlg-body"><pre id="tplDialogBody"></pre></div>
-</dialog>
 <div class="toasts" id="toasts" aria-live="polite"></div>
 
 <script>/*__TEMPLATES__*/</script>
+<script>/*__SAMPLES__*/</script>
 <script>
 (function () {
   "use strict";
-
-  /* ============================================================
-     Environment
-     ============================================================ */
-  const IN_CLAUDE = !!(window.claude && typeof window.claude.use === "function");
-  const CDN = "https://cdn.jsdelivr.net/npm/";
-  const LIBS = {
-    pdf: [CDN + "pdfjs-dist@3.11.174/build/pdf.worker.min.js", CDN + "pdfjs-dist@3.11.174/build/pdf.min.js"],
-    zip: [CDN + "jszip@3.10.1/dist/jszip.min.js"],
-    jspdf: [CDN + "jspdf@2.5.1/dist/jspdf.umd.min.js"],
-    mammoth: [CDN + "mammoth@1.6.0/mammoth.browser.min.js"],
-  };
-  const TEMPLATES = window.NOTICE_TEMPLATES || [];
   const $ = (id) => document.getElementById(id);
-  const cap = (name) => (IN_CLAUDE ? window.claude.use(name).catch(() => null) : Promise.resolve(null));
+  const IN_CLAUDE = !!(window.claude && typeof window.claude.use === "function");
+  const cap = (n) => (IN_CLAUDE ? window.claude.use(n).catch(() => null) : Promise.resolve(null));
+  const TEMPLATES = window.NOTICE_TEMPLATES || [];
+  const SAMPLES = window.SAMPLE_NOTICES || [];
+  const JSPDF = "https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js";
 
-  const OPTIONS = {
-    clientType: ["Individual", "Private Limited Company", "Public Limited Company", "Partnership Firm", "LLP", "Proprietorship", "Bank / NBFC", "Trust / Society"],
-    drawerType: ["Individual", "Private Limited Company", "Public Limited Company", "Partnership Firm", "LLP", "Proprietorship", "Trust / Society"],
-    txnType: ["Sale / supply of goods", "Services / works contract", "Friendly / personal loan", "Bank / NBFC loan repayment", "Refund of advance / consideration", "Rent / lease dues", "Settlement / compromise amount", "Other"],
-    dishonourReason: ["Funds Insufficient", "Exceeds Arrangement", "Payment Stopped by Drawer", "Account Closed", "Drawer's Signature Differs / Incomplete", "Account Blocked / Frozen", "Refer to Drawer", "Other"],
-    dispatchMode: ["BY REGISTERED POST A.D.", "BY SPEED POST", "BY REGISTERED POST A.D. AND EMAIL", "BY SPEED POST AND EMAIL", "BY COURIER AND EMAIL", "BY HAND DELIVERY"],
-    tone: ["Firm and formal (standard)", "Strict / strongly worded", "Measured, open to settlement"],
-    language: ["English", "Hindi", "English with Hindi translation"],
-  };
-  OPTIONS.lhDispatch = OPTIONS.dispatchMode;
-
-  const FIELDS = [
-    "clientName", "clientType", "clientAddress", "clientBusiness", "clientRep",
-    "drawerName", "drawerType", "drawerAddress", "drawerDirectors", "drawerContact", "drawerSignatory",
-    "txnType", "totalLiability", "txnDocs", "txnFacts", "reminders",
-    "chequeNo", "chequeDate", "chequeAmount", "draweeBank", "drawerAccount", "presentDate", "payeeBank",
-    "memoDate", "memoReceivedDate", "dishonourReason", "otherReason",
-    "claimInterest", "interestRate", "noticeCost", "reserveBNS",
-    "advName", "advDesignation", "advAddress", "advPhone", "advEmail", "noticeDate", "dispatchMode", "refNo",
-    "useAllTemplates", "tone", "language", "extraInstructions",
-  ];
-  const REQUIRED = ["clientName", "drawerName", "chequeNo", "chequeDate", "chequeAmount", "draweeBank", "presentDate", "memoDate"];
-  const LH_MAP = { lhName: "advName", lhDesignation: "advDesignation", lhAddress: "advAddress", lhPhone: "advPhone", lhEmail: "advEmail", lhDispatch: "dispatchMode" };
-
-  const DEFAULT_AI = {
-    engine: IN_CLAUDE ? "claude" : "openai",
-    model: "gpt-5.4-mini",
-    baseUrl: "https://api.openai.com/v1",
-    reasoningEffort: "",
-    maxTokens: 6000,
-    rememberKey: true,
+  const FIELDS = ["clientName", "clientAddress", "drawerName", "drawerAddress", "drawerDirectors", "facts", "chequeNo", "chequeDate", "chequeAmount", "draweeBank", "presentDate", "memoDate", "memoReceivedDate", "reason", "otherReason", "interestRate", "noticeCost", "advName", "advContact", "advDetails", "noticeDate", "dispatchMode", "style"];
+  const REQUIRED = ["clientName", "drawerName", "facts", "chequeNo", "chequeDate", "chequeAmount", "draweeBank", "presentDate", "memoDate"];
+  const ADV = ["advName", "advContact", "advDetails", "dispatchMode"];
+  const PROVIDERS = {
+    openai: { name: "OpenAI", model: "gpt-5.4-mini" },
+    gemini: { name: "Google Gemini", model: "gemini-2.5-flash" },
+    claude: { name: "Claude", model: "" },
   };
 
-  const state = {
-    view: "new",
-    step: 1,
-    template: TEMPLATES[0] ? TEMPLATES[0].id : "",
-    ai: { ...DEFAULT_AI },
-    apiKey: "",
-    docs: [],             // uploaded documents {id, name, size, kind, ext, text, images[], status, error}
-    current: null,        // {id, createdAt, ...} history record being edited
-    noticeText: "",
-    conversation: null,   // last AI conversation for revisions
-    dirty: false,
-    history: [],
-    abort: null,
-  };
+  const state = { apiKey: "", current: null, history: [], selected: null, busy: false };
 
-  /* ============================================================
-     Local storage (best effort)
-     ============================================================ */
   const ls = {
     get(k, fb = null) { try { const v = localStorage.getItem(k); return v == null ? fb : JSON.parse(v); } catch { return fb; } },
     set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch { return false; } },
-    del(k) { try { localStorage.removeItem(k); } catch {} },
-  };
-  const ss = {
-    get(k) { try { const v = sessionStorage.getItem(k); return v == null ? null : JSON.parse(v); } catch { return null; } },
-    set(k, v) { try { sessionStorage.setItem(k, JSON.stringify(v)); } catch {} },
-    del(k) { try { sessionStorage.removeItem(k); } catch {} },
   };
 
-  /* ============================================================
-     Formatting helpers
-     ============================================================ */
+  /* ---------- helpers ---------- */
   const ONES = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
   const TENS = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
   const two = (n) => (n < 20 ? ONES[n] : TENS[Math.floor(n / 10)] + (n % 10 ? " " + ONES[n % 10] : ""));
   function intWords(n) {
     if (n === 0) return "Zero";
-    const p = [];
-    const cr = Math.floor(n / 1e7), lk = Math.floor((n % 1e7) / 1e5), th = Math.floor((n % 1e5) / 1000), hu = Math.floor((n % 1000) / 100), r = n % 100;
-    if (cr) p.push(intWords(cr) + " Crore");
-    if (lk) p.push(two(lk) + " Lakh");
-    if (th) p.push(two(th) + " Thousand");
-    if (hu) p.push(ONES[hu] + " Hundred");
+    const p = [], cr = Math.floor(n / 1e7), lk = Math.floor((n % 1e7) / 1e5), th = Math.floor((n % 1e5) / 1000), hu = Math.floor((n % 1000) / 100), r = n % 100;
+    if (cr) p.push(intWords(cr) + " Crore"); if (lk) p.push(two(lk) + " Lakh"); if (th) p.push(two(th) + " Thousand"); if (hu) p.push(ONES[hu] + " Hundred");
     if (r) p.push((p.length ? "and " : "") + two(r));
     return p.join(" ");
   }
-  const parseAmt = (s) => { if (s == null || s === "") return NaN; const c = String(s).replace(/[₹,\s]|rs\.?|\/-$/gi, ""); return c ? Number(c) : NaN; };
-  function words(a) {
-    if (!isFinite(a) || a <= 0) return "";
-    const r = Math.floor(a), ps = Math.round((a - r) * 100);
-    return "Rupees " + intWords(r) + (ps ? " and " + two(ps) + " Paise" : "") + " Only";
-  }
-  const inr = (a) => (isFinite(a) ? "₹" + a.toLocaleString("en-IN", { minimumFractionDigits: a % 1 ? 2 : 0, maximumFractionDigits: 2 }) + "/-" : "");
-  const inrPlain = (a) => (isFinite(a) && a > 0 ? a.toLocaleString("en-IN", { maximumFractionDigits: 2 }) : "");
+  const amt = (s) => { if (s == null || s === "") return NaN; const c = String(s).replace(/[₹,\s]|rs\.?|\/-$/gi, ""); return c ? Number(c) : NaN; };
+  const words = (a) => { if (!(a > 0)) return ""; const r = Math.floor(a), ps = Math.round((a - r) * 100); return "Rupees " + intWords(r) + (ps ? " and " + two(ps) + " Paise" : "") + " Only"; };
+  const inr = (a) => (a > 0 ? "₹" + a.toLocaleString("en-IN", { maximumFractionDigits: 2 }) + "/-" : "");
   const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const ord = (n) => { const s = ["th", "st", "nd", "rd"], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); };
   const pDate = (v) => { if (!v) return null; const [y, m, d] = String(v).split("-").map(Number); return y && m && d ? new Date(y, m - 1, d) : null; };
@@ -777,971 +345,227 @@ dialog::backdrop { background: rgba(10, 18, 24, .5); }
   const iso = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
   const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
   const addMonths = (d, n) => { const x = new Date(d.getFullYear(), d.getMonth() + n, 1); x.setDate(Math.min(d.getDate(), new Date(x.getFullYear(), x.getMonth() + 1, 0).getDate())); return x; };
-  const dayDiff = (a, b) => Math.round((b - a) / 86400000);
-  const today = () => { const d = new Date(); d.setHours(0, 0, 0, 0); return d; };
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const uid = () => "n" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
-  const isEntity = (t) => !/^(Individual|Proprietorship)$/.test(t || "");
-
+  const val = (id) => ($(id) ? $(id).value.trim() : "");
   function toast(msg, kind = "") {
     const el = document.createElement("div");
     el.className = "toast" + (kind ? " " + kind : "");
     el.textContent = msg;
     $("toasts").appendChild(el);
-    setTimeout(() => el.remove(), kind === "err" ? 7000 : 3800);
+    setTimeout(() => el.remove(), kind === "err" ? 7000 : 3500);
   }
-
   function loadScript(src) {
-    loadScript.cache = loadScript.cache || {};
-    if (!loadScript.cache[src]) {
-      loadScript.cache[src] = new Promise((resolve, reject) => {
-        const s = document.createElement("script");
-        s.src = src; s.async = false;
-        s.onload = resolve;
-        s.onerror = () => { delete loadScript.cache[src]; reject(new Error("Couldn't load a helper library. Check your internet connection.")); };
-        document.head.appendChild(s);
-      });
-    }
-    return loadScript.cache[src];
+    loadScript.c = loadScript.c || {};
+    return (loadScript.c[src] = loadScript.c[src] || new Promise((res, rej) => {
+      const s = document.createElement("script"); s.src = src; s.onload = res;
+      s.onerror = () => { delete loadScript.c[src]; rej(new Error("Couldn't load the PDF maker. Check your internet connection.")); };
+      document.head.appendChild(s);
+    }));
   }
-  const loadLib = (k) => Promise.all(LIBS[k].map(loadScript));
 
-  /* ============================================================
-     Form helpers
-     ============================================================ */
-  function fillSelects() {
-    Object.entries(OPTIONS).forEach(([id, opts]) => {
-      const el = $(id); if (!el) return;
-      el.innerHTML = opts.map((o) => `<option>${esc(o)}</option>`).join("");
-    });
-  }
-  function val(id) { const el = $(id); if (!el) return ""; return el.type === "checkbox" ? el.checked : el.value.trim(); }
-  function setVal(id, v) {
-    const el = $(id); if (!el) return;
-    if (el.type === "checkbox") { el.checked = !!v; return; }
-    if (el.tagName === "SELECT") {
-      if (v == null || v === "") return;
-      const match = Array.from(el.options).find((o) => o.value.toLowerCase() === String(v).toLowerCase());
-      if (match) el.value = match.value;
-      return;
-    }
-    el.value = v == null ? "" : v;
-  }
-  function readForm() { const o = {}; FIELDS.forEach((id) => (o[id] = val(id))); o.template = state.template; return o; }
+  /* ---------- form ---------- */
+  function readForm() { const o = {}; FIELDS.forEach((f) => (o[f] = val(f))); return o; }
   function writeForm(o) {
-    FIELDS.forEach((id) => { if (o && id in o) setVal(id, o[id]); });
-    if (o && o.template) selectTemplate(o.template);
-    syncForm();
+    FIELDS.forEach((f) => {
+      if (!o || !(f in o) || !$(f)) return;
+      const el = $(f);
+      if (el.tagName === "SELECT") { if (Array.from(el.options).some((x) => x.value === o[f])) el.value = o[f]; }
+      else el.value = o[f] == null ? "" : o[f];
+    });
+    sync();
   }
-
   function data() {
     const d = readForm();
-    d.amount = parseAmt(d.chequeAmount);
-    d.amountWords = words(d.amount);
-    d.amountFig = inr(d.amount);
-    d.reason = d.dishonourReason === "Other" ? d.otherReason : d.dishonourReason;
+    d.amount = amt(d.chequeAmount);
+    d.reasonText = d.reason === "Other" ? d.otherReason : d.reason;
     d.dt = { notice: pDate(d.noticeDate), cheque: pDate(d.chequeDate), present: pDate(d.presentDate), memo: pDate(d.memoDate), recv: pDate(d.memoReceivedDate) };
-    d.entity = isEntity(d.drawerType);
     return d;
   }
-
-  function syncForm() {
+  function deadlineInfo(d) {
+    const info = d.dt.recv || d.dt.memo;
+    if (!info) return null;
+    const last = addDays(info, 30);
+    if (d.dt.cheque && d.dt.present && d.dt.present > addDays(addMonths(d.dt.cheque, 3), -1))
+      return { cls: "err", text: "The cheque was presented more than 3 months after its date, so Section 138 does not apply." };
+    if (d.dt.notice && d.dt.notice > last)
+      return { cls: "err", text: `Too late: the notice had to be sent by ${fDate(last)}, 30 days after the dishonour was known.` };
+    const left = d.dt.notice ? Math.round((last - d.dt.notice) / 86400000) : null;
+    return { cls: left != null && left <= 5 ? "warn" : "ok", text: `Send this notice by ${fDate(last)}${left != null ? ` (${left} day${left === 1 ? "" : "s"} after the notice date)` : ""}. The drawer then has 15 days from receiving it to pay.` };
+  }
+  function sync() {
     const d = data();
-    $("amountWords").value = d.amountWords;
-    $("otherReasonField").hidden = $("dishonourReason").value !== "Other";
-    $("interestField").hidden = !$("claimInterest").checked;
-    $("directorsField").hidden = !d.entity;
-    renderChecks(d);
+    $("amountWords").textContent = words(d.amount);
+    $("otherReasonField").hidden = $("reason").value !== "Other";
+    const dl = deadlineInfo(d);
+    $("deadline").hidden = !dl;
+    if (dl) { $("deadline").className = "deadline " + dl.cls; $("deadline").textContent = dl.text; }
+  }
+  function saveDraft() {
+    ls.set("s138.form", readForm());
+    const adv = {}; ADV.forEach((f) => (adv[f] = val(f))); ls.set("s138.adv", adv);
   }
 
-  function saveWip() { ls.set("s138.wip", { form: readForm(), noticeText: state.noticeText, currentId: state.current && state.current.id }); }
+  /* ---------- AI ---------- */
+  function provider(key) {
+    if (IN_CLAUDE) return "claude";
+    if (/^(AIza|AQ\.)/.test(key || "")) return "gemini";
+    return "openai";
+  }
+  const modelFor = (p) => ls.get("s138.model." + p) || PROVIDERS[p].model;
 
-  /* ============================================================
-     Limitation checks
-     ============================================================ */
-  function limitation(d) {
-    const out = { rows: [], checks: [] };
-    const add = (c, h) => out.checks.push({ c, h });
-    const { cheque, present, memo, recv, notice } = d.dt;
-    if (cheque) {
-      const validTill = addDays(addMonths(cheque, 3), -1);
-      out.rows.push(["Cheque valid until", sDate(validTill)]);
-      if (present) {
-        if (present < cheque) add("err", "The presentation date is before the cheque date.");
-        else if (present > validTill) add("err", "The cheque was presented after its 3-month validity. A Section 138 case cannot be filed.");
-        else add("ok", "The cheque was presented while still valid (Section 138(a)).");
-      }
-    }
-    if (present && memo && memo < present) add("err", "The return memo date is before the presentation date.");
-    const info = recv || memo;
-    if (info) {
-      const last = addDays(info, 30);
-      out.lastNotice = last;
-      out.rows.push(["Send notice by", sDate(last)]);
-      if (notice) {
-        const gap = dayDiff(info, notice);
-        if (gap < 0) add("err", "The notice date is before the dishonour was known.");
-        else if (notice > last) add("err", `The notice is ${gap} days after the dishonour was known, beyond the 30-day limit (Section 138(b)).`);
-        else add(gap > 24 ? "warn" : "ok", `The notice goes out ${gap} day(s) after the dishonour was known, within 30 days${gap > 24 ? ". Send it today" : ""}.`);
-        if (notice <= last) {
-          const served = addDays(notice, 7);
-          out.rows.push(["Payment due (if served ~7 days)", sDate(addDays(served, 15))]);
-          out.rows.push(["File complaint by (approx.)", sDate(addMonths(addDays(served, 16), 1))]);
-        }
-      }
-      if (!recv) add("info", "Add the date your client actually received the memo if it was later than the memo date. The 30 days run from then.");
-    }
-    if (d.chequeAmount && !(d.amount > 0)) add("err", "The cheque amount is not a valid number.");
-    const tot = parseAmt(d.totalLiability);
-    if (d.amount > 0 && tot > 0 && d.amount > tot) add("warn", "The cheque amount is more than the amount outstanding. Section 138 covers only the debt actually owed.");
-    if (d.entity && !d.drawerDirectors) add("info", "The drawer is a company or firm. Name its directors or partners so they can be prosecuted under Section 141.");
-    if (d.reason && /stop/i.test(d.reason)) add("info", "\"Payment stopped\" is still covered by Section 138. The notice must show the debt existed when the cheque was given.");
-    return out;
+  const SYSTEM = `You are a senior Indian litigation advocate. Draft the FIRST DEMAND NOTICE under Section 138 of the Negotiable Instruments Act, 1881, sent by the payee's advocate to the drawer of a dishonoured cheque.
+
+RULES
+1. Use ONLY the facts given. Never invent names, dates, amounts, account numbers, documents or events. Where a needed fact is missing, write a short placeholder in square brackets, e.g. [● date of delivery].
+2. The reference template shows tone and structure only. Never copy its facts.
+3. Include: cheque number, date, amount in figures and in words (use the words exactly as given), and the bank and branch; that the cheque was issued in discharge of a legally enforceable debt or liability, and how that liability arose; the date of presentation, the return memo date and the reason for dishonour, quoted exactly; a clear demand to pay THE CHEQUE AMOUNT within 15 (fifteen) days of receipt of the notice; and that otherwise criminal proceedings will be filed under Sections 138 and 142 before the competent court, at the drawer's risk as to costs and consequences.
+4. Keep the cheque amount separate. Interest and notice cost each go in their own paragraph, clearly apart from the cheque amount.
+5. If the drawer is a company, firm or LLP, address the notice to it AND to each named director or partner, and add a paragraph on their liability under Section 141.
+6. Add a without-prejudice reservation of civil remedies and remedies under the Bharatiya Nyaya Sanhita, 2023, and a line that a copy has been retained in the advocate's office.
+7. Use formal Indian legal English, Indian number grouping (₹6,48,500/-), dates like "8th July, 2026", and numbered paragraphs starting "That …" where natural.
+
+OUTPUT: plain text only, with no markdown, asterisks or comments. Put a blank line between blocks. Order: advocate letterhead lines; mode of dispatch; Date; "To," block; "Sub:" line; salutation; opening paragraph ("Under instructions and on behalf of my client …, I hereby serve upon you the following legal notice:"); numbered paragraphs; "Yours faithfully,"; advocate's name and "Advocate".`;
+
+  function userPrompt(d) {
+    const t = TEMPLATES.find((x) => x.id === d.style) || TEMPLATES[0];
+    const L = (k, v) => (v ? `- ${k}: ${v}` : null);
+    const cost = amt(d.noticeCost);
+    const rows = [
+      "ADVOCATE", L("Name", d.advName), L("Designation and office", d.advDetails && d.advDetails.replace(/\n+/g, ", ")), L("Phone / email", d.advContact), L("Date of notice", fDate(d.dt.notice)), L("Mode of dispatch", d.dispatchMode),
+      "", "CLIENT (PAYEE)", L("Name", d.clientName), L("Address", d.clientAddress),
+      "", "DRAWER (NOTICEE)", L("Name", d.drawerName), L("Address", d.drawerAddress), L("Directors / partners (Section 141)", d.drawerDirectors && d.drawerDirectors.replace(/\n+/g, "; ")),
+      "", "DEBT", L("What the cheque was given for", d.facts),
+      "", "CHEQUE", L("Number", d.chequeNo), L("Date", fDate(d.dt.cheque)), L("Amount", inr(d.amount)), L("Amount in words", words(d.amount)), L("Drawn on", d.draweeBank),
+      "", "DISHONOUR", L("Presented on", fDate(d.dt.present)), L("Return memo date", fDate(d.dt.memo)), L("Memo received by client on", fDate(d.dt.recv)), L("Reason (quote exactly)", d.reasonText && `"${d.reasonText}"`),
+      "", "DEMAND", L("Interest", d.interestRate ? `${d.interestRate}% per annum, claimed separately` : "not claimed"), L("Cost of notice", cost > 0 ? `${inr(cost)} (${words(cost)})` : "not claimed"),
+    ].filter((x) => x !== null);
+    return `Draft the Section 138 demand notice from these details.\n\n${rows.join("\n")}\n\n=== REFERENCE TEMPLATE (style only) ===\n${t.text}`;
   }
 
-  function renderChecks(d) {
-    const L = limitation(d);
-    $("timeline").innerHTML = L.rows.length
-      ? L.rows.map(([a, b]) => `<div><span>${esc(a)}</span><b>${esc(b)}</b></div>`).join("")
-      : '<div><span>Enter the cheque and memo dates to see your deadlines.</span><span></span></div>';
-    $("checkList").innerHTML = L.checks.map((x) => `<li class="${x.c}"><span>${esc(x.h)}</span></li>`).join("");
-  }
-
-  /* ============================================================
-     Navigation
-     ============================================================ */
-  function showView(v) {
-    state.view = v;
-    ["new", "history", "settings"].forEach((x) => ($("view-" + x).hidden = x !== v));
-    document.querySelectorAll(".nav button").forEach((b) => { if (b.dataset.view === v) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current"); });
-    if (v === "history") renderHistory();
-    if (v === "settings") loadSettingsForm();
-    window.scrollTo(0, 0);
-  }
-  function goStep(n) {
-    n = Number(n);
-    if (n === 4 && !state.noticeText) { toast("Draft the notice first."); n = 3; }
-    state.step = n;
-    for (let i = 1; i <= 4; i++) $("step-" + i).hidden = i !== n;
-    document.querySelectorAll(".stepper button").forEach((b) => {
-      const s = Number(b.dataset.step);
-      if (s === n) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current");
-      b.classList.toggle("done", s < n || (s === 3 && !!state.noticeText));
-    });
-    if (n === 4) renderDownload();
-    if (state.view !== "new") showView("new");
-    window.scrollTo(0, 0);
-  }
-
-  /* ============================================================
-     Documents: upload and read
-     ============================================================ */
-  const KINDS = ["Cheque", "Return memo", "Invoice / bill", "Purchase / work order", "Agreement", "Loan papers", "Ledger / statement", "Emails / letters", "Other"];
-  function guessKind(name) {
-    const n = name.toLowerCase();
-    if (/memo|return|dishon|bounce/.test(n)) return "Return memo";
-    if (/cheque|check|chq/.test(n)) return "Cheque";
-    if (/invoice|bill|tax/.test(n)) return "Invoice / bill";
-    if (/\bpo\b|order|work/.test(n)) return "Purchase / work order";
-    if (/agree|contract|mou|deed/.test(n)) return "Agreement";
-    if (/loan|sanction|npa/.test(n)) return "Loan papers";
-    if (/ledger|statement|account/.test(n)) return "Ledger / statement";
-    if (/mail|letter|whatsapp|notice/.test(n)) return "Emails / letters";
-    return "Other";
-  }
-  const fmtSize = (b) => (b > 1048576 ? (b / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(b / 1024)) + " KB");
-
-  function renderFiles() {
-    const ul = $("fileList");
-    ul.innerHTML = state.docs.map((f) => `
-      <li class="file" data-id="${f.id}">
-        <span class="ico">${esc(f.ext)}</span>
-        <span style="min-width:0"><span class="nm" title="${esc(f.name)}">${esc(f.name)}</span>
-          <span class="meta ${f.status === "error" ? "bad" : ""}">${f.status === "reading" ? '<span class="spinner"></span>Reading…' : f.status === "error" ? esc(f.error) : esc(f.summary)}</span></span>
-        <select aria-label="Document type" data-kind="${f.id}">${KINDS.map((k) => `<option${k === f.kind ? " selected" : ""}>${k}</option>`).join("")}</select>
-        <button type="button" class="btn quiet sm" data-remove="${f.id}" aria-label="Remove ${esc(f.name)}">Remove</button>
-      </li>`).join("");
-    const ready = state.docs.filter((f) => f.status === "ready");
-    $("extractBtn").disabled = !ready.length || state.docs.some((f) => f.status === "reading");
-  }
-
-  async function addFiles(list) {
-    const files = Array.from(list || []);
-    for (const file of files) {
-      const ext = (file.name.split(".").pop() || "").toLowerCase();
-      if (!["pdf", "png", "jpg", "jpeg", "webp", "docx", "txt"].includes(ext)) { toast(`${file.name}: this file type isn't supported. Use PDF, JPG, PNG, DOCX or TXT.`, "err"); continue; }
-      if (file.size > 25 * 1048576) { toast(`${file.name} is over 25 MB. Upload a smaller copy.`, "err"); continue; }
-      const doc = { id: uid(), name: file.name, size: file.size, ext, kind: guessKind(file.name), text: "", images: [], status: "reading", summary: "" };
-      state.docs.push(doc);
-      renderFiles();
-      try {
-        await readDoc(file, doc);
-        doc.status = "ready";
-        const bits = [fmtSize(file.size)];
-        if (doc.pages) bits.push(doc.pages + (doc.pages === 1 ? " page" : " pages"));
-        if (doc.text) bits.push("text read");
-        if (doc.images.length) bits.push(doc.images.length + (doc.images.length === 1 ? " image" : " images") + " for AI to read");
-        doc.summary = bits.join(" · ");
-      } catch (e) {
-        doc.status = "error";
-        doc.error = e.message || "Couldn't read this file.";
-      }
-      renderFiles();
-    }
-  }
-
-  async function readDoc(file, doc) {
-    const ext = doc.ext;
-    if (ext === "txt") { doc.text = (await file.text()).slice(0, 30000); return; }
-    if (ext === "docx") {
-      await loadLib("mammoth");
-      const r = await window.mammoth.extractRawText({ arrayBuffer: await file.arrayBuffer() });
-      doc.text = (r.value || "").slice(0, 30000);
-      return;
-    }
-    if (["png", "jpg", "jpeg", "webp"].includes(ext)) { doc.images = [await shrinkImage(file)]; return; }
-    if (ext === "pdf") {
-      await loadLib("pdf");
-      const pdf = await window.pdfjsLib.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
-      doc.pages = pdf.numPages;
-      let text = "";
-      const maxPages = Math.min(pdf.numPages, 20);
-      for (let i = 1; i <= maxPages; i++) {
-        const page = await pdf.getPage(i);
-        const tc = await page.getTextContent();
-        text += tc.items.map((it) => it.str + (it.hasEOL ? "\n" : " ")).join("").replace(/[ \t]+/g, " ") + "\n\n";
-      }
-      text = text.trim();
-      if (text.replace(/\s/g, "").length < 80 * Math.min(pdf.numPages, 3)) {
-        // Scanned PDF: send page images instead
-        for (let i = 1; i <= Math.min(pdf.numPages, 4); i++) {
-          const page = await pdf.getPage(i);
-          const vp = page.getViewport({ scale: 1 });
-          const scale = Math.min(2, 1600 / Math.max(vp.width, vp.height));
-          const v2 = page.getViewport({ scale });
-          const canvas = document.createElement("canvas");
-          canvas.width = Math.round(v2.width); canvas.height = Math.round(v2.height);
-          const ctx = canvas.getContext("2d");
-          ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, canvas.width, canvas.height);
-          await page.render({ canvasContext: ctx, viewport: v2 }).promise;
-          doc.images.push(await new Promise((res) => canvas.toBlob(res, "image/jpeg", 0.85)));
-        }
-      }
-      doc.text = text.slice(0, 30000);
-      return;
-    }
-  }
-
-  function shrinkImage(file) {
-    return new Promise((resolve) => {
-      const url = URL.createObjectURL(file);
-      const img = new Image();
-      img.onload = () => {
-        const max = 1800, s = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
-        if (s === 1 && file.size < 3 * 1048576 && /jpe?g|png/.test(file.type)) { URL.revokeObjectURL(url); resolve(file); return; }
-        const c = document.createElement("canvas");
-        c.width = Math.round(img.naturalWidth * s); c.height = Math.round(img.naturalHeight * s);
-        const ctx = c.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, c.width, c.height); ctx.drawImage(img, 0, 0, c.width, c.height);
-        URL.revokeObjectURL(url);
-        c.toBlob((b) => resolve(b || file), "image/jpeg", 0.85);
-      };
-      img.onerror = () => { URL.revokeObjectURL(url); resolve(file); };
-      img.src = url;
-    });
-  }
-
-  function docsForPrompt(maxChars = 36000) {
-    const ready = state.docs.filter((f) => f.status === "ready");
-    let budget = maxChars;
-    const parts = [];
-    ready.forEach((f, i) => {
-      const t = f.text ? f.text.slice(0, Math.max(0, Math.min(budget, 14000))) : "";
-      budget -= t.length;
-      parts.push(`--- Document ${i + 1}: "${f.name}" (${f.kind}) ---\n${t || (f.images.length ? "[Scanned or photo document: see attached image(s)]" : "[No readable text]")}`);
-    });
-    const images = [];
-    ready.forEach((f) => f.images.forEach((b) => images.push({ blob: b, label: `${f.name} (${f.kind})` })));
-    return { text: parts.join("\n\n"), images: images.slice(0, 8), count: ready.length };
-  }
-
-  const EXTRACT_KEYS = {
-    clientName: "payee / our client's full name as on the cheque (e.g. M/s. ABC Pvt. Ltd.)",
-    clientType: "one of: " + OPTIONS.clientType.join(" | "),
-    clientAddress: "payee's address",
-    clientBusiness: "payee's line of business, short phrase",
-    drawerName: "drawer (who signed/issued the cheque) full name",
-    drawerType: "one of: " + OPTIONS.drawerType.join(" | "),
-    drawerAddress: "drawer's postal address",
-    drawerDirectors: "if drawer is a company/firm: directors/partners/signatories, one per line (name, designation), else null",
-    drawerSignatory: "name/designation of the person who signed the cheque",
-    txnType: "one of: " + OPTIONS.txnType.join(" | "),
-    totalLiability: "total amount outstanding as a plain number, if stated",
-    txnDocs: "list of supporting documents with numbers and dates, separated by '; '",
-    txnFacts: "3-6 neutral sentences, written from the payee's side, on how the debt arose and why the cheque was given",
-    chequeNo: "cheque number (usually 6 digits)",
-    chequeDate: "YYYY-MM-DD",
-    chequeAmount: "plain number, no commas",
-    draweeBank: "bank and branch the cheque is drawn on",
-    drawerAccount: "drawer's account number printed on the cheque",
-    presentDate: "YYYY-MM-DD, date presented for payment",
-    payeeBank: "payee's bank and branch where it was presented",
-    memoDate: "YYYY-MM-DD, date of the return memo",
-    memoReceivedDate: "YYYY-MM-DD, date the payee received the memo, if shown",
-    dishonourReason: "reason for return exactly as written on the memo",
-    notes: "array of short strings: anything the advocate must check (e.g. amount in words does not match figures, dates unclear, cheque over 3 months old)",
-  };
-
-  async function extractFromDocs() {
-    const { text, images, count } = docsForPrompt(40000);
-    if (!count) return;
-    const btn = $("extractBtn");
-    btn.disabled = true;
-    $("extractStatus").innerHTML = '<span class="spinner"></span>Reading ' + count + (count === 1 ? " document" : " documents") + "… this can take up to a minute.";
-    $("extractResult").innerHTML = "";
-    const prompt = `You are a paralegal preparing a cheque dishonour case under Section 138 of the Negotiable Instruments Act, 1881 (India).
-Read the documents below (and any attached images: cheque, bank return memo, invoices, agreements, letters). The PAYEE is our client (the person the cheque is payable to). The DRAWER is the person or company that issued and signed the cheque.
-
-Reply with ONLY one JSON object with exactly these keys. Use null for anything the documents do not show; never guess names, numbers or dates.
-${Object.entries(EXTRACT_KEYS).map(([k, v]) => `- "${k}": ${v}`).join("\n")}
-
-DOCUMENTS:
-${text}
-${images.length ? "\nATTACHED IMAGES (in order): " + images.map((x, i) => `${i + 1}. ${x.label}`).join("; ") : ""}`;
-    try {
-      const out = await AI.json(prompt, images.map((x) => x.blob));
-      applyExtraction(out || {});
-    } catch (e) {
-      $("extractResult").innerHTML = `<div class="note err">${esc(e.message)}</div>`;
-    } finally {
-      $("extractStatus").textContent = "";
-      renderFiles();
-    }
-  }
-
-  function mapReason(r) {
-    if (!r) return null;
-    const s = r.toLowerCase();
-    if (/insuff|nidhi|fund/.test(s)) return ["Funds Insufficient", ""];
-    if (/exceed/.test(s)) return ["Exceeds Arrangement", ""];
-    if (/stop/.test(s)) return ["Payment Stopped by Drawer", ""];
-    if (/clos/.test(s)) return ["Account Closed", ""];
-    if (/signat/.test(s)) return ["Drawer's Signature Differs / Incomplete", ""];
-    if (/block|froz|dormant/.test(s)) return ["Account Blocked / Frozen", ""];
-    if (/refer/.test(s)) return ["Refer to Drawer", ""];
-    return ["Other", r];
-  }
-
-  function applyExtraction(o) {
-    const filled = [], skipped = [];
-    const put = (id, v) => {
-      if (v == null || v === "" || (Array.isArray(v) && !v.length)) return;
-      const cur = val(id);
-      const el = $(id);
-      const isSel = el && el.tagName === "SELECT";
-      if (!isSel && cur && String(cur) !== String(v)) { skipped.push(labelOf(id)); return; }
-      setVal(id, v);
-      if (el) el.classList.add("filled");
-      filled.push(labelOf(id));
-    };
-    ["clientName", "clientType", "clientAddress", "clientBusiness", "drawerName", "drawerType", "drawerAddress", "drawerSignatory", "txnType", "txnDocs", "txnFacts", "chequeNo", "draweeBank", "drawerAccount", "payeeBank"].forEach((k) => put(k, o[k]));
-    if (o.drawerDirectors) put("drawerDirectors", Array.isArray(o.drawerDirectors) ? o.drawerDirectors.join("\n") : o.drawerDirectors);
-    ["chequeDate", "presentDate", "memoDate", "memoReceivedDate"].forEach((k) => { if (o[k] && /^\d{4}-\d{2}-\d{2}$/.test(o[k])) put(k, o[k]); });
-    if (o.chequeAmount) put("chequeAmount", inrPlain(parseAmt(o.chequeAmount)));
-    if (o.totalLiability) put("totalLiability", inrPlain(parseAmt(o.totalLiability)));
-    const rr = mapReason(o.dishonourReason);
-    if (rr) { put("dishonourReason", rr[0]); if (rr[1]) put("otherReason", rr[1]); }
-    syncForm(); saveWip();
-    const notes = Array.isArray(o.notes) ? o.notes : o.notes ? [o.notes] : [];
-    let html = filled.length
-      ? `<div class="note ok"><b>Filled ${filled.length} fields</b> from your documents. They're marked with a green edge in step 2. Please check each one.</div>`
-      : `<div class="note warn">No details could be read from these documents. Type them in step 2.</div>`;
-    if (skipped.length) html += `<div class="note info">Kept what you had already typed for: ${esc(skipped.join(", "))}.</div>`;
-    if (notes.length) html += `<div class="note warn"><b>Points to check</b><ul>${notes.map((n) => `<li>${esc(String(n))}</li>`).join("")}</ul></div>`;
-    if (filled.length) html += `<div style="margin-top:12px"><button type="button" class="btn primary" data-go="2">Review case details →</button></div>`;
-    $("extractResult").innerHTML = html;
-  }
-
-  function labelOf(id) {
-    const el = $(id);
-    const lab = el && el.closest("label");
-    const sp = lab && lab.querySelector("span");
-    return sp ? sp.childNodes[0].textContent.trim() : id;
-  }
-
-  /* ============================================================
-     AI engines
-     ============================================================ */
-  const blobToDataURL = (b) => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsDataURL(b); });
-
-  const AI = {
-    name() { return state.ai.engine === "claude" ? "Claude" : prettyModel(state.ai.model); },
-    ready() { return state.ai.engine === "claude" ? IN_CLAUDE : !!state.apiKey; },
-
-    // messages: [{role:"system"|"user"|"assistant", content}], images: Blob[] attached to the last user turn
-    async text(messages, { images = [], onText, signal, json = false } = {}) {
-      if (state.ai.engine === "claude") return this.claude(messages, { images, onText, signal, json });
-      return this.openai(messages, { images, signal, json });
-    },
-
-    async json(prompt, images = []) {
-      const raw = await this.text([{ role: "user", content: prompt }], { images, json: true });
-      if (raw && typeof raw === "object") return raw;
-      const s = String(raw);
-      try { return JSON.parse(s); } catch {}
-      const m = s.match(/\{[\s\S]*\}/);
-      if (m) { try { return JSON.parse(m[0]); } catch {} }
-      throw new Error("The AI's answer couldn't be read. Try again.");
-    },
-
-    async openai(messages, { images, signal, json }) {
-      if (!state.apiKey) throw new Error("Add your OpenAI API key in Settings first.");
-      const msgs = await Promise.all(messages.map(async (m, i) => {
-        if (i === messages.length - 1 && m.role === "user" && images.length) {
-          const parts = [{ type: "text", text: m.content }];
-          for (const b of images) parts.push({ type: "image_url", image_url: { url: await blobToDataURL(b), detail: "high" } });
-          return { role: "user", content: parts };
-        }
-        return { role: m.role === "system" ? "system" : m.role, content: m.content };
-      }));
-      const body = { model: state.ai.model || DEFAULT_AI.model, messages: msgs, max_completion_tokens: Number(state.ai.maxTokens) || DEFAULT_AI.maxTokens };
-      if (state.ai.reasoningEffort) body.reasoning_effort = state.ai.reasoningEffort;
-      if (json) body.response_format = { type: "json_object" };
-      let res;
-      try {
-        res = await fetch((state.ai.baseUrl || DEFAULT_AI.baseUrl).replace(/\/+$/, "") + "/chat/completions", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Authorization: "Bearer " + state.apiKey },
-          body: JSON.stringify(body),
-          signal,
-        });
-      } catch (e) {
-        if (e.name === "AbortError") throw new Error("Stopped.");
-        if (IN_CLAUDE) throw new Error("This claude.ai link can't reach OpenAI. In Settings, switch the AI engine to Claude, or use GPT from the desktop file.");
-        throw new Error("Couldn't reach OpenAI. Check your internet connection and the API address in Settings.");
-      }
-      const out = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        const msg = (out.error && out.error.message) || res.statusText;
-        if (res.status === 401) throw new Error("OpenAI rejected the API key. Check it in Settings.");
-        if (res.status === 404) throw new Error(`OpenAI says: ${msg}. Check the model name in Settings.`);
-        if (res.status === 429) throw new Error("OpenAI rate limit or quota reached. Wait a moment, or check your billing. " + msg);
-        throw new Error(`OpenAI error ${res.status}: ${msg}`);
-      }
-      const ch = out.choices && out.choices[0];
-      const content = ch && ch.message && ch.message.content;
-      if (!content) {
-        if (ch && ch.finish_reason === "length") throw new Error("The AI ran out of room before finishing. Raise 'Max output tokens' in Settings.");
-        throw new Error("The AI returned an empty answer. Try again.");
-      }
-      return content;
-    },
-
-    async claude(messages, { images, onText, signal, json }) {
+  async function callAI(system, user) {
+    const p = provider(state.apiKey);
+    if (p === "claude") {
       const sample = await cap("sample");
-      if (!sample) throw new Error("Claude isn't available here. Open the app from its claude.ai link, or switch to OpenAI in Settings.");
-      // No system role: fold the system prompt into the first user turn.
-      const turns = [];
-      let sys = "";
-      messages.forEach((m) => {
-        if (m.role === "system") { sys += m.content + "\n\n"; return; }
-        turns.push({ role: m.role, content: m.content });
+      if (!sample) throw new Error("The AI isn't available in this view.");
+      try { return (await sample(system + "\n\n" + user, { cache: false })).text; }
+      catch (e) {
+        if (e && e.code === "not_granted") throw new Error("Please allow the AI when asked, then try again.");
+        throw new Error((e && e.message) || "The AI couldn't answer. Try again.");
+      }
+    }
+    if (!state.apiKey) throw new Error("Paste your API key at the top and click Save key first.");
+    const model = val("model") || modelFor(p);
+    return p === "gemini" ? gemini(model, system, user) : openai(model, system, user);
+  }
+
+  async function openai(model, system, user) {
+    let res;
+    try {
+      res = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer " + state.apiKey },
+        body: JSON.stringify({ model, messages: [{ role: "system", content: system }, { role: "user", content: user }], max_completion_tokens: 8000 }),
       });
-      if (sys && turns.length) turns[0] = { role: "user", content: sys + turns[0].content };
-      const opts = { cache: false, modelTier: "default" };
-      if (signal) opts.signal = signal;
-      if (onText) opts.onText = onText;
-      if (images.length) {
-        const lim = await sample.limits().catch(() => null);
-        if (lim && lim.images) opts.images = images.slice(0, lim.images.maxCount || 5);
-        else toast("Images can't be sent to Claude in this view. Only the text of your documents was used.");
+    } catch { throw new Error("Couldn't reach OpenAI. Check your internet connection."); }
+    const j = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      const m = (j.error && j.error.message) || res.statusText;
+      if (res.status === 401) throw new Error("OpenAI rejected this API key. Check the key and try again.");
+      if (res.status === 429) throw new Error("OpenAI says the quota or rate limit is reached: " + m);
+      throw new Error(`OpenAI error ${res.status}: ${m}`);
+    }
+    const c = j.choices && j.choices[0];
+    if (!c || !c.message || !c.message.content) throw new Error(c && c.finish_reason === "length" ? "The AI ran out of space before finishing. Try again." : "The AI returned an empty answer. Try again.");
+    return c.message.content;
+  }
+
+  async function gemini(model, system, user) {
+    const body = JSON.stringify({
+      systemInstruction: { parts: [{ text: system }] },
+      contents: [{ role: "user", parts: [{ text: user }] }],
+      generationConfig: { temperature: 0.3, maxOutputTokens: 16000 },
+    });
+    const key = state.apiKey;
+    const routes = [
+      { name: "Gemini API", url: `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, headers: { "x-goog-api-key": key } },
+      { name: "Vertex AI", url: `https://aiplatform.googleapis.com/v1/publishers/google/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(key)}`, headers: {} },
+    ];
+    if (ls.get("s138.geminiRoute", 0) === 1) routes.reverse();
+    let lastErr = "";
+    for (const r of routes) {
+      let res;
+      try { res = await fetch(r.url, { method: "POST", headers: { "Content-Type": "application/json", ...r.headers }, body }); }
+      catch { lastErr = `Couldn't reach ${r.name}.`; continue; }
+      const j = await res.json().catch(() => ({}));
+      if (res.ok) {
+        ls.set("s138.geminiRoute", r.name === "Vertex AI" ? 1 : 0);
+        const cand = j.candidates && j.candidates[0];
+        const text = cand && cand.content && (cand.content.parts || []).map((x) => x.text || "").join("");
+        if (!text) throw new Error(cand && cand.finishReason === "MAX_TOKENS" ? "The AI ran out of space before finishing. Try again." : "The AI returned an empty answer. Try again.");
+        return text;
       }
-      try {
-        if (json) return await sample.json(turns, opts);
-        const r = await sample(turns, opts);
-        return r.text;
-      } catch (e) {
-        const code = e && e.code;
-        if (code === "cancelled") throw new Error("Stopped.");
-        if (code === "not_granted") throw new Error("Claude wasn't allowed to run. Allow it when asked, or switch to OpenAI in Settings.");
-        if (code === "rate_limited") throw new Error("Too many requests at once. Wait a few seconds and try again.");
-        if (code === "prompt_too_large") throw new Error("The documents are too long. Remove a large document and try again.");
-        throw new Error((e && e.message) || "Claude couldn't answer. Try again.");
-      }
-    },
-  };
-  function prettyModel(m) { return (m || "").replace(/^gpt-/i, "GPT-").replace(/-mini$/i, " mini").replace(/-nano$/i, " nano"); }
-
-  /* ============================================================
-     Prompting
-     ============================================================ */
-  const SYSTEM_PROMPT = `You are a senior Indian litigation advocate with long experience of cheque dishonour matters. You draft the FIRST DEMAND NOTICE under Section 138 of the Negotiable Instruments Act, 1881 (the "NI Act"), to be sent by the payee's advocate to the drawer.
-
-NON-NEGOTIABLE RULES
-1. Use ONLY the facts in the CASE DETAILS and the UPLOADED DOCUMENTS. If the two conflict, the CASE DETAILS win. Never invent names, dates, amounts, account numbers, documents, bank branches or events. Where a fact the notice needs is missing, insert a short bracketed placeholder such as [● date of return memo].
-2. Never copy facts (names, amounts, dates, goods, places) from the reference template(s). They show tone, structure and paragraph style only.
-3. The notice must contain:
-   (a) cheque number, cheque date, cheque amount in figures and in words (use the words EXACTLY as supplied), and the drawee bank and branch (plus the drawer's account number if given);
-   (b) a statement that the cheque was issued in discharge of a legally enforceable debt or other liability, with a short account of how that liability arose;
-   (c) the date of presentation, the date of the return memo and the reason for dishonour, quoted exactly as supplied;
-   (d) an express, unambiguous demand to pay THE CHEQUE AMOUNT within 15 (fifteen) days of receipt of the notice;
-   (e) the consequence of non-payment: criminal proceedings under Sections 138 and 142 of the NI Act before the competent court, at the drawer's risk as to costs and consequences.
-4. State the cheque amount distinctly. Interest, notice cost or any other sum goes in a SEPARATE paragraph, clearly apart from the cheque amount, so the notice cannot be attacked as an omnibus or vague demand.
-5. If the drawer is a company, firm, LLP or other entity, address the notice to the entity AND to each named director, partner or person in charge. Add a paragraph on their vicarious liability under Section 141 of the NI Act.
-6. If asked to reserve rights under the Bharatiya Nyaya Sanhita, 2023 or civil remedies, add a general without-prejudice reservation. Do not level specific criminal charges beyond Section 138.
-7. Write in formal Indian legal English (or the language requested), with Indian digit grouping (₹9,75,000/-) and dates in the form "8th July, 2026". Number the paragraphs 1, 2, 3 …, starting each with "That …" where natural.
-8. End with the without-prejudice clause, then the notice-cost clause (only if a cost is given), then "A copy of this notice has been retained in my office for record and further action.", then "Yours faithfully," and the advocate's signature block.
-
-OUTPUT FORMAT
-Plain text only. No markdown, asterisks, # headings or code fences, and no comments before or after the notice. Put a blank line between blocks, and keep each line of a letterhead or address on its own line. Use this order:
-advocate letterhead (name, designation, address, contact), mode of dispatch (e.g. BY REGISTERED POST A.D.), reference no. (if any), Date, "To," block with each noticee and address, subject line starting "Sub:", salutation, opening paragraph ("Under instructions and on behalf of my client …, I hereby serve upon you the following legal notice:"), numbered paragraphs, closing and signature block.`;
-
-  const ln = (label, v) => (v ? `- ${label}: ${v}` : null);
-  function caseDetails(d) {
-    const L = [];
-    const sec = (title, ...rows) => { const r = rows.filter(Boolean); if (r.length) L.push((L.length ? "\n" : "") + title, ...r); };
-    sec("ADVOCATE", ln("Name", d.advName), ln("Designation / enrolment", d.advDesignation), ln("Office address", d.advAddress), ln("Phone", d.advPhone), ln("Email", d.advEmail), ln("Our reference no.", d.refNo), ln("Date of notice", fDate(d.dt.notice) || "[● date]"), ln("Mode of dispatch", d.dispatchMode));
-    sec("CLIENT (PAYEE)", ln("Name", d.clientName || "[● client name]"), ln("Type", d.clientType), ln("Address", d.clientAddress), ln("Business / background", d.clientBusiness), ln("Acting through", d.clientRep));
-    sec("DRAWER (NOTICEE)", ln("Name", d.drawerName || "[● drawer name]"), ln("Type", d.drawerType), ln("Address", d.drawerAddress && d.drawerAddress.replace(/,?\s*\n+\s*/g, ", ")), d.entity ? ln("Directors / partners / persons in charge (Section 141)", d.drawerDirectors && d.drawerDirectors.replace(/\n+/g, "; ")) : null, ln("Contact", d.drawerContact), ln("Signatory of cheque", d.drawerSignatory));
-    const tot = parseAmt(d.totalLiability);
-    sec("DEBT / LIABILITY", ln("Nature of transaction", d.txnType), ln("Total outstanding", tot > 0 ? `${inr(tot)} (${words(tot)})` : ""), ln("Supporting documents", d.txnDocs), ln("Facts", d.txnFacts), ln("Reminders after dishonour", d.reminders));
-    sec("CHEQUE AND DISHONOUR", ln("Cheque number", d.chequeNo || "[● cheque no.]"), ln("Cheque date", fDate(d.dt.cheque)), ln("Cheque amount (figures)", d.amount > 0 ? d.amountFig : ""), ln("Cheque amount (words)", d.amountWords), ln("Drawn on", d.draweeBank), ln("Drawer's account no.", d.drawerAccount), ln("Date of presentation", fDate(d.dt.present)), ln("Presented through", d.payeeBank), ln("Return memo date", fDate(d.dt.memo)), ln("Date client received the memo", fDate(d.dt.recv)), ln("Reason for dishonour (quote exactly)", d.reason ? `"${d.reason}"` : ""));
-    const cost = parseAmt(d.noticeCost);
-    sec("DEMAND AND STYLE", ln("Claim interest", d.claimInterest ? `Yes, at ${d.interestRate || "[● rate]"}% per annum, stated separately` : "No"), ln("Cost of notice", cost > 0 ? `${inr(cost)} (${words(cost)})` : "Do not claim"), ln("Reserve rights under BNS, 2023 and civil remedies", d.reserveBNS ? "Yes" : "No"), ln("Tone", d.tone), ln("Language", d.language), ln("Additional instructions", d.extraInstructions));
-    return L.join("\n");
+      lastErr = `${r.name} error ${res.status}: ${(j.error && j.error.message) || res.statusText}`;
+      if (![400, 401, 403, 404].includes(res.status)) break;
+    }
+    throw new Error(lastErr + " Check that the key is active and that the model name is right.");
   }
 
-  function userPrompt(d, docs) {
-    const tpls = d.useAllTemplates ? TEMPLATES : TEMPLATES.filter((t) => t.id === state.template);
-    let lang = "";
-    if (d.language === "Hindi") lang = "\nWrite the entire notice in formal legal Hindi (Devanagari). Keep statutory references such as 'धारा 138, परक्राम्य लिखत अधिनियम, 1881'.";
-    if (d.language === "English with Hindi translation") lang = "\nWrite the notice in English, then add the heading 'हिंदी अनुवाद' followed by a faithful Hindi translation.";
-    return `Draft a first demand notice under Section 138 of the NI Act from the case details below, following the style and structure of the reference template(s).${lang}
+  const clean = (t) => String(t).replace(/^```[a-z]*\s*/i, "").replace(/```\s*$/, "").replace(/\*\*(.+?)\*\*/g, "$1").replace(/^#+\s*/gm, "").trim();
 
-=== CASE DETAILS ===
-${caseDetails(d)}
-${docs && docs.text ? `\n=== UPLOADED DOCUMENTS (evidence; the case details win if they conflict) ===\n${docs.text}\n` : ""}
-=== REFERENCE TEMPLATE(S) (style only; do not copy their facts) ===
-${tpls.map((t) => `----- ${t.title} (${t.tag}) -----\n${t.text}\n----- END -----`).join("\n\n")}`;
-  }
-
-  function cleanAI(t) {
-    return String(t).replace(/^```[a-z]*\s*/i, "").replace(/```\s*$/, "").replace(/\*\*(.+?)\*\*/g, "$1").replace(/^#+\s*/gm, "").trim();
-  }
-
-  /* ============================================================
-     Standard format (no AI)
-     ============================================================ */
-  function standardNotice() {
-    const d = data();
-    const P = (v, l) => v || `[● ${l}]`;
-    const B = [];
-    const block = (...xs) => { const b = xs.filter(Boolean); if (b.length) B.push(b.join("\n")); };
-    if (d.advName) block(d.advName.toUpperCase(), d.advDesignation, d.advAddress, [d.advPhone && "Contact: " + d.advPhone, d.advEmail && "Email: " + d.advEmail].filter(Boolean).join(" | "));
-    block(d.dispatchMode);
-    block(d.refNo && "Ref: " + d.refNo, "Date: " + P(fDate(d.dt.notice), "date"));
-    const dirs = d.entity && d.drawerDirectors ? d.drawerDirectors.split("\n").map((s) => s.trim()).filter(Boolean) : [];
-    block("To,", P(d.drawerName, "name of drawer"), ...(d.drawerAddress ? d.drawerAddress.split("\n") : ["[● address]"]));
-    if (dirs.length) block("AND", ...dirs.map((x, i) => `${i + 1}. ${x}`));
-    const amt = d.amount > 0 ? `${d.amountFig} (${d.amountWords})` : "[● amount]";
-    block(`Sub: Legal notice under Section 138 of the Negotiable Instruments Act, 1881 for dishonour of Cheque No. ${P(d.chequeNo, "cheque no.")} dated ${P(fDate(d.dt.cheque), "cheque date")} for ${d.amount > 0 ? d.amountFig : "[● amount]"}.`);
-    block("Dear Sir/Madam,");
-    const cl = d.clientType === "Individual"
-      ? `${P(d.clientName, "client name")}${d.clientAddress ? ", residing at " + d.clientAddress : ""}`
-      : `${P(d.clientName, "client name")}${d.clientAddress ? ", having its office at " + d.clientAddress : ""}${d.clientRep ? ", acting through " + d.clientRep : ""}`;
-    block(`Under instructions and on behalf of my client, ${cl} (hereinafter referred to as "my client"), I hereby serve upon you the following legal notice:`);
-    const p = [];
-    if (d.clientBusiness) p.push(`That my client is ${/^[aeiou]/i.test(d.clientType) ? "an" : "a"} ${d.clientType} engaged in ${d.clientBusiness.replace(/^engaged in\s+/i, "")}.`);
-    if (d.txnFacts) p.push("That " + d.txnFacts.replace(/^that\s+/i, "").replace(/\s*\n+\s*/g, " ").replace(/\.?$/, "."));
-    else p.push(`That the dealings between you and my client relate to ${d.txnType.toLowerCase()}. [● Set out how the liability arose.]`);
-    if (d.txnDocs) p.push("That the said transaction and your liability are evidenced by " + d.txnDocs.replace(/\s*\n+\s*/g, "; ").replace(/\.?$/, "."));
-    const tot = parseAmt(d.totalLiability);
-    p.push(`That towards the discharge of your legally enforceable debt and liability${tot > 0 ? ` of ${inr(tot)} (${words(tot)})` : ""}, you issued Cheque No. ${P(d.chequeNo, "cheque no.")} dated ${P(fDate(d.dt.cheque), "cheque date")} for a sum of ${amt}, drawn on ${P(d.draweeBank, "bank and branch")}${d.drawerAccount ? " from your Account No. " + d.drawerAccount : ""}${d.drawerSignatory ? ", signed by " + d.drawerSignatory : ""}, in favour of my client, assuring my client that it would be honoured on presentation.`);
-    p.push(`That my client presented the said cheque for encashment${d.payeeBank ? " through its banker, " + d.payeeBank + "," : ""} on ${P(fDate(d.dt.present), "date of presentation")}; however, the said cheque was returned unpaid with the endorsement "${P(d.reason, "reason")}", as intimated vide Cheque Return Memo dated ${P(fDate(d.dt.memo), "memo date")}${d.dt.recv ? ", received by my client on " + fDate(d.dt.recv) : ""}.`);
-    if (d.reminders) p.push(`That thereafter, despite ${d.reminders}, you have failed and neglected to pay the said amount to my client.`);
-    p.push("That the said cheque was issued by you towards a legally enforceable debt and liability, and its dishonour for the reason stated above constitutes an offence punishable under Section 138 of the Negotiable Instruments Act, 1881.");
-    if (d.entity) p.push(`That by virtue of Section 141 of the Negotiable Instruments Act, 1881, every person who, at the time the offence was committed, was in charge of and responsible to the drawer for the conduct of its business${dirs.length ? ", including the addressees named above," : ""} is also deemed guilty of the offence and liable to be proceeded against.`);
-    p.push(`I, therefore, on behalf of my client, hereby call upon you to pay the said cheque amount of ${amt} to my client within 15 (fifteen) days from the date of receipt of this notice, failing which my client shall be constrained to initiate criminal proceedings against you under Sections 138 and 142 of the Negotiable Instruments Act, 1881 before the competent court, entirely at your risk as to costs and consequences.`);
-    if (d.claimInterest) p.push(`That, separately and without prejudice to the above demand for the cheque amount, my client is entitled to interest at the rate of ${P(d.interestRate, "rate")}% per annum on the said sum from ${P(fDate(d.dt.memo), "date of dishonour")} until realisation, which my client reserves the right to recover in appropriate proceedings.`);
-    const cost = parseAmt(d.noticeCost);
-    if (cost > 0) p.push(`You are further liable to pay a sum of ${inr(cost)} (${words(cost)}) towards the costs and expenses of this legal notice.`);
-    p.push(`This notice is issued without prejudice to all other rights and remedies available to my client${d.reserveBNS ? ", including civil remedies for recovery and remedies under the Bharatiya Nyaya Sanhita, 2023," : ""} all of which are expressly reserved.`);
-    p.push("A copy of this notice has been retained in my office for record and further action.");
-    p.forEach((x, i) => B.push(`${i + 1}. ${x}`));
-    block("Yours faithfully,");
-    block(d.advName || "[● Advocate name]", /^advocate/i.test(d.advDesignation) ? "" : "Advocate", d.advDesignation);
-    return B.join("\n\n");
-  }
-
-  /* ============================================================
-     Notice rendering
-     ============================================================ */
-  function parseBlocks(text) {
-    return String(text || "").replace(/\r/g, "").split(/\n\s*\n/).map((blk) => {
-      const lines = blk.split("\n").map((l) => l.trim()).filter(Boolean);
+  /* ---------- notice rendering ---------- */
+  function blocks(text) {
+    return String(text || "").replace(/\r/g, "").split(/\n\s*\n/).map((b) => {
+      const lines = b.split("\n").map((l) => l.trim()).filter(Boolean);
       if (!lines.length) return null;
       const f = lines[0];
       let cls = "para";
-      if (lines.length === 1 && /^(legal notice|demand notice|notice|कानूनी नोटिस|हिंदी अनुवाद)$/i.test(f)) cls = "heading";
-      else if (/^(sub|subject|विषय)\s*[:.\-]/i.test(f)) cls = "subject";
+      if (lines.length === 1 && /^(legal notice|demand notice|notice)$/i.test(f)) cls = "heading";
+      else if (/^(sub|subject)\s*[:.\-]/i.test(f)) cls = "subject";
       else if (/^\d+\s*[.)]\s/.test(f) && lines.length === 1) cls = "num";
       else if (lines.length > 1 || (f.length < 70 && !/[.;]$/.test(f)) || /^(to,?|date|ref|by )/i.test(f)) cls = "left";
       return { cls, lines };
     }).filter(Boolean);
   }
-  const hl = (s) => s.replace(/\[[^\]\n]{1,90}\]/g, (m) => `<span class="ph">${m}</span>`);
-
-  function renderPaper(text, { editable = true } = {}) {
-    const paper = $("paper");
-    paper.classList.remove("empty", "busy");
-    paper.innerHTML = parseBlocks(text).map((b) => `<p class="${b.cls === "para" ? "" : b.cls}">${b.lines.map((l) => hl(esc(l))).join("<br>")}</p>`).join("");
-    if (editable) { paper.setAttribute("contenteditable", "true"); paper.setAttribute("spellcheck", "true"); }
-    else paper.removeAttribute("contenteditable");
+  function render(el, text) {
+    el.innerHTML = blocks(text).map((b) => `<p class="${b.cls === "para" ? "" : b.cls}">${b.lines.map((l) => esc(l).replace(/\[[^\]\n]{1,90}\]/g, (m) => `<span class="ph">${m}</span>`)).join("<br>")}</p>`).join("");
   }
-  function paperText() {
-    const paper = $("paper");
-    if (paper.classList.contains("empty")) return "";
-    // Walk the DOM instead of using innerText, which drops line breaks while the page is hidden.
+  // Reads the notice back from the page, keeping line breaks even when the page is hidden.
+  function textOf(el) {
     const walk = (node) => {
       let out = "";
       node.childNodes.forEach((n) => {
         if (n.nodeType === 3) out += n.data.replace(/\s*\n\s*/g, " ");
         else if (n.nodeName === "BR") out += "\n";
-        else if (n.nodeType === 1) {
-          const block = /^(DIV|P)$/.test(n.nodeName);
-          const inner = walk(n);
-          out += block && out && !out.endsWith("\n") ? "\n" + inner : inner;
-        }
+        else if (n.nodeType === 1) { const inner = walk(n); out += /^(DIV|P)$/.test(n.nodeName) && out && !out.endsWith("\n") ? "\n" + inner : inner; }
       });
       return out;
     };
-    const ps = Array.from(paper.children).filter((c) => c.nodeName === "P" || c.nodeName === "DIV");
-    const blocks = (ps.length ? ps : [paper]).map((p) => walk(p).split("\n").map((l) => l.replace(/\u00a0/g, " ").trim()).filter(Boolean).join("\n"));
-    return blocks.filter(Boolean).join("\n\n").trim();
-  }
-  function resetPaper() {
-    const paper = $("paper");
-    paper.className = "paper empty";
-    paper.removeAttribute("contenteditable");
-    paper.innerHTML = "<div><b>The notice will appear here</b>Choose <i>Generate notice with AI</i>. When it's ready, click into the page to edit it.</div>";
+    const kids = Array.from(el.children).filter((c) => /^(P|DIV)$/.test(c.nodeName));
+    return (kids.length ? kids : [el]).map((p) => walk(p).split("\n").map((l) => l.replace(/ /g, " ").trim()).filter(Boolean).join("\n")).filter(Boolean).join("\n\n").trim();
   }
 
-  function setDraftStatus(msg, kind = "", spin = false) {
-    const el = $("draftStatus");
-    el.className = "status" + (kind ? " " + kind : "");
-    el.innerHTML = (spin ? '<span class="spinner"></span>' : "") + esc(msg);
-  }
-  function setBusy(b) {
-    ["generateBtn", "standardBtn", "reviseBtn", "extractBtn"].forEach((id) => { if ($(id)) $(id).disabled = b; });
-    $("stopBtn").hidden = !b;
-    if (b && !$("paper").classList.contains("empty")) $("paper").classList.add("busy");
-    if (!b) { $("paper").classList.remove("busy"); renderFiles(); }
-  }
-  function afterDraft(text) {
-    state.noticeText = text;
-    $("reviseBox").hidden = false;
-    $("saveDraftBtn").disabled = false;
-    $("toDownloadBtn").disabled = false;
-    goStepMarks();
-  }
-  function goStepMarks() {
-    document.querySelectorAll(".stepper button").forEach((b) => b.classList.toggle("done", Number(b.dataset.step) < state.step || (b.dataset.step === "3" && !!state.noticeText)));
-  }
-
-  function validate() {
-    let first = null;
-    REQUIRED.forEach((id) => {
-      const bad = !val(id) || (id === "chequeAmount" && !(parseAmt(val(id)) > 0));
-      $(id).classList.toggle("invalid", bad);
-      if (bad && !first) first = $(id);
-    });
-    if (first) {
-      goStep(2);
-      setTimeout(() => { first.focus(); first.scrollIntoView({ block: "center" }); }, 50);
-      toast("Fill in the fields marked in red first. They are required.", "err");
-      return false;
-    }
-    return true;
-  }
-
-  async function generate() {
-    if (!validate()) return;
-    if (!AI.ready()) {
-      toast(state.ai.engine === "claude" ? "Claude works only from the claude.ai link. Switch to OpenAI in Settings." : "Add your OpenAI API key in Settings first.", "err");
-      showView("settings");
-      return;
-    }
-    const d = data();
-    const docs = docsForPrompt(30000);
-    const messages = [{ role: "system", content: SYSTEM_PROMPT }, { role: "user", content: userPrompt(d, docs) }];
-    const ctrl = new AbortController();
-    state.abort = ctrl;
-    setBusy(true);
-    const t0 = Date.now();
-    const tick = setInterval(() => setDraftStatus(`Drafting with ${AI.name()}… ${Math.round((Date.now() - t0) / 1000)}s`, "", true), 1000);
-    setDraftStatus(`Drafting with ${AI.name()}…`, "", true);
-    try {
-      const raw = await AI.text(messages, {
-        images: docs.images.map((x) => x.blob),
-        signal: ctrl.signal,
-        onText: ({ text }) => renderPaper(cleanAI(text), { editable: false }),
-      });
-      const text = cleanAI(raw);
-      state.conversation = [...messages, { role: "assistant", content: text }];
-      renderPaper(text);
-      afterDraft(text);
-      await saveRecord({ engine: AI.name() });
-      setDraftStatus(`Drafted in ${Math.round((Date.now() - t0) / 1000)}s and saved to History. Fill in any yellow [●] gaps.`, "ok");
-    } catch (e) {
-      setDraftStatus(e.message, "err");
-      if (state.noticeText) renderPaper(state.noticeText); else resetPaper();
-    } finally {
-      clearInterval(tick);
-      setBusy(false);
-      state.abort = null;
-    }
-  }
-
-  async function revise() {
-    const ins = $("reviseInput").value.trim();
-    if (!ins) { $("reviseInput").focus(); return; }
-    if (!AI.ready()) { toast("Set up the AI engine in Settings first.", "err"); showView("settings"); return; }
-    const current = paperText();
-    const base = state.conversation ? state.conversation.slice(0, 2) : [{ role: "system", content: SYSTEM_PROMPT }, { role: "user", content: userPrompt(data(), docsForPrompt(30000)) }];
-    const convo = [...base, { role: "assistant", content: current }, { role: "user", content: `Revise the notice above: ${ins}\nKeep every rule. Return the complete revised notice only.` }];
-    const ctrl = new AbortController();
-    state.abort = ctrl;
-    setBusy(true);
-    setDraftStatus("Revising…", "", true);
-    try {
-      const text = cleanAI(await AI.text(convo, { signal: ctrl.signal, onText: ({ text }) => renderPaper(cleanAI(text), { editable: false }) }));
-      state.conversation = [...convo, { role: "assistant", content: text }];
-      renderPaper(text);
-      afterDraft(text);
-      $("reviseInput").value = "";
-      await saveRecord({});
-      setDraftStatus("Revised and saved.", "ok");
-    } catch (e) {
-      setDraftStatus(e.message, "err");
-      renderPaper(current);
-    } finally {
-      setBusy(false);
-      state.abort = null;
-    }
-  }
-
-  async function useStandard() {
-    if (!validate()) return;
-    const text = standardNotice();
-    state.conversation = null;
-    renderPaper(text);
-    afterDraft(text);
-    await saveRecord({ engine: "Standard format" });
-    setDraftStatus("Standard-format notice ready and saved to History. Fill in any yellow [●] gaps.", "ok");
-  }
-
-  /* ============================================================
-     History storage (claude.ai: private per-user database; otherwise: this browser)
-     ============================================================ */
-  const Store = {
-    mode: "local",
-    col: null,
-    async init() {
-      if (!IN_CLAUDE) return;
-      try {
-        const [db, user] = await Promise.all([cap("db"), cap("user")]);
-        const id = user && (await user.id());
-        if (db && id) { this.col = db.collection("data/users/" + id); this.mode = "cloud"; }
-      } catch { this.mode = "local"; }
-    },
-    async list() {
-      if (this.mode === "cloud") {
-        try {
-          const snap = await this.col.orderBy("updatedAt", "desc").limit(500).get();
-          return snap.docs.map((x) => ({ ...x.data(), id: x.id }));
-        } catch (e) { toast("Couldn't load saved notices: " + (e.message || e.code), "err"); return []; }
-      }
-      return ls.get("s138.history", []);
-    },
-    async put(rec) {
-      if (this.mode === "cloud") {
-        try { await this.col.doc(rec.id).set(JSON.parse(JSON.stringify(rec))); return true; }
-        catch (e) { toast(e.code === "quota_exceeded" ? "Storage is full. Delete some old notices in History." : "Couldn't save: " + (e.message || e.code), "err"); return false; }
-      }
-      const all = ls.get("s138.history", []).filter((r) => r.id !== rec.id);
-      all.unshift(rec);
-      if (!ls.set("s138.history", all)) { toast("This browser's storage is full. Back up and delete old notices.", "err"); return false; }
-      return true;
-    },
-    async remove(id) {
-      if (this.mode === "cloud") { try { await this.col.doc(id).delete(); } catch (e) { toast("Couldn't delete: " + (e.message || e.code), "err"); } return; }
-      ls.set("s138.history", ls.get("s138.history", []).filter((r) => r.id !== id));
-    },
-    label() { return this.mode === "cloud" ? "History is saved to your claude.ai account" : "History is saved in this browser"; },
-  };
-
-  async function refreshHistory() {
-    state.history = (await Store.list()).sort((a, b) => (b.updatedAt || "").localeCompare(a.updatedAt || ""));
-    $("historyCount").textContent = state.history.length;
-    if (state.view === "history") renderHistory();
-  }
-
-  async function saveRecord({ engine } = {}) {
-    const text = paperText() || state.noticeText;
-    if (!text) return false;
-    state.noticeText = text;
-    const now = new Date().toISOString();
-    const d = data();
-    const L = limitation(d);
-    const rec = {
-      id: (state.current && state.current.id) || uid(),
-      createdAt: (state.current && state.current.createdAt) || now,
-      updatedAt: now,
-      clientName: d.clientName, drawerName: d.drawerName, chequeNo: d.chequeNo, amount: isFinite(d.amount) ? d.amount : null,
-      chequeDate: d.chequeDate, noticeDate: d.noticeDate, lastNoticeDate: L.lastNotice ? iso(L.lastNotice) : "",
-      engine: engine || (state.current && state.current.engine) || "",
-      template: state.template,
-      documents: state.docs.filter((f) => f.status === "ready").map((f) => ({ name: f.name, kind: f.kind })),
-      form: readForm(),
-      notice: text,
-    };
-    const ok = await Store.put(rec);
-    if (ok) { state.current = rec; state.dirty = false; $("saveDraftBtn").textContent = "Saved"; await refreshHistory(); saveWip(); }
-    return ok;
-  }
-
-  function deadlineTag(r) {
-    const last = pDate(r.lastNoticeDate), nd = pDate(r.noticeDate);
-    if (!last) return '<span class="tag muted">—</span>';
-    if (nd && nd > last) return `<span class="tag err">Late · ${sDate(last)}</span>`;
-    const left = dayDiff(today(), last);
-    if (left < 0) return `<span class="tag muted">${sDate(last)}</span>`;
-    return `<span class="tag ${left <= 5 ? "warn" : "ok"}">${sDate(last)} · ${left}d left</span>`;
-  }
-
-  function renderHistory() {
-    const q = $("historySearch").value.trim().toLowerCase();
-    const rows = state.history.filter((r) => !q || [r.clientName, r.drawerName, r.chequeNo].join(" ").toLowerCase().includes(q));
-    $("historyEmpty").hidden = state.history.length > 0;
-    $("historyInfo").textContent = state.history.length ? `${rows.length} of ${state.history.length} notices · ${Store.label().toLowerCase()}` : "";
-    $("historyBody").innerHTML = rows.map((r) => {
-      const d = new Date(r.updatedAt);
-      return `<tr data-id="${esc(r.id)}">
-        <td class="num">${esc(sDate(d))}<div class="sub">${d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</div></td>
-        <td><div class="who">${esc(r.clientName || "—")}</div><div class="sub">→ ${esc(r.drawerName || "—")}</div></td>
-        <td class="num">${esc(r.chequeNo || "—")}<div class="sub">${esc(sDate(pDate(r.chequeDate)))}</div></td>
-        <td class="num">${r.amount ? esc(inr(r.amount)) : "—"}</td>
-        <td>${deadlineTag(r)}</td>
-        <td><div class="row-actions">
-          <button type="button" class="btn sm primary" data-h="open">Open</button>
-          <span class="menu"><button type="button" class="btn sm" data-h="dlmenu" aria-haspopup="true">Download ▾</button></span>
-          <button type="button" class="btn sm" data-h="dup" title="Start a new notice from this one">Copy</button>
-          <button type="button" class="btn sm danger" data-h="del">Delete</button>
-        </div></td></tr>`;
-    }).join("");
-  }
-
-  function openRecord(r, step = 3) {
-    newNotice(false);
-    state.current = r;
-    writeForm(r.form || {});
-    state.noticeText = r.notice || "";
-    if (state.noticeText) { renderPaper(state.noticeText); afterDraft(state.noticeText); $("saveDraftBtn").textContent = "Saved"; }
-    setDraftStatus(`Opened from History (saved ${sDate(new Date(r.updatedAt))}).`, "ok");
-    $("newTitle").textContent = `${r.clientName || "Notice"} → ${r.drawerName || ""}`;
-    showView("new");
-    goStep(step);
-    saveWip();
-  }
-
-  /* ============================================================
-     Export: DOCX, PDF, TXT
-     ============================================================ */
-  function fileBase(rec) {
-    const who = ((rec ? rec.drawerName : val("drawerName")) || "Notice").replace(/^m\/s\.?\s*/i, "").replace(/[^a-z0-9]+/gi, "_").replace(/^_|_$/g, "").slice(0, 40);
-    const chq = (rec ? rec.chequeNo : val("chequeNo")) || "draft";
-    return `S138_Notice_${who}_Chq${chq}`;
-  }
-
-  async function saveFile(filename, blobOrString) {
-    if (IN_CLAUDE) {
-      const dl = await cap("downloads");
-      if (!dl) { toast("Downloads aren't available in this view. Use Copy text instead.", "err"); return false; }
-      try { await dl.save({ filename, data: blobOrString }); toast("Downloaded " + filename); return true; }
-      catch (e) { if (e && e.code !== "declined") toast("Download failed: " + (e.message || e.code), "err"); return false; }
-    }
-    const blob = blobOrString instanceof Blob ? blobOrString : new Blob([blobOrString], { type: "text/plain;charset=utf-8" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
-    toast("Downloaded " + filename);
-    return true;
-  }
-
-  const xesc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-  function docxRuns(line, bold, underline) {
-    const parts = line.split(/(\[[^\]\n]{1,90}\])/g).filter((x) => x !== "");
-    return parts.map((t) => {
-      const ph = /^\[[^\]]*\]$/.test(t);
-      const rpr = `${bold ? "<w:b/>" : ""}${underline ? '<w:u w:val="single"/>' : ""}${ph ? '<w:highlight w:val="yellow"/>' : ""}`;
-      return `<w:r>${rpr ? `<w:rPr>${rpr}</w:rPr>` : ""}<w:t xml:space="preserve">${xesc(t)}</w:t></w:r>`;
-    }).join("");
-  }
-  async function buildDocx(text) {
-    await loadLib("zip");
-    const paras = parseBlocks(text).map((b) => {
-      const jc = b.cls === "heading" ? "center" : b.cls === "para" || b.cls === "num" ? "both" : "left";
-      const ind = b.cls === "num" ? '<w:ind w:left="567" w:hanging="567"/>' : "";
-      const bold = b.cls === "heading" || b.cls === "subject";
-      const runs = b.lines.map((l, i) => {
-        let line = l;
-        if (b.cls === "num") line = l.replace(/^(\d+\s*[.)])\s+/, "$1\t");
-        return (i ? "<w:r><w:br/></w:r>" : "") + docxRuns(line, bold, b.cls === "heading").replace(/\t/g, '</w:t></w:r><w:r><w:tab/></w:r><w:r><w:t xml:space="preserve">');
-      }).join("");
-      return `<w:p><w:pPr><w:spacing w:after="200" w:line="360" w:lineRule="auto"/><w:jc w:val="${jc}"/>${ind}</w:pPr>${runs}</w:p>`;
-    }).join("");
-    const doc = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><w:body>${paras}<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1247" w:right="1134" w:bottom="1247" w:left="1247" w:header="708" w:footer="708" w:gutter="0"/></w:sectPr></w:body></w:document>`;
-    const styles = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Mangal" w:eastAsia="Times New Roman"/><w:sz w:val="24"/><w:szCs w:val="24"/><w:lang w:val="en-IN"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after="200" w:line="360" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults><w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/></w:style></w:styles>`;
-    const zip = new window.JSZip();
-    zip.file("[Content_Types].xml", `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/></Types>`);
-    zip.file("_rels/.rels", `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>`);
-    zip.file("word/_rels/document.xml.rels", `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`);
-    zip.file("word/document.xml", doc);
-    zip.file("word/styles.xml", styles);
-    return zip.generateAsync({ type: "blob", mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
-  }
-
-  async function buildPdf(text) {
-    if (/[ऀ-ॿ]/.test(text)) throw new Error("PDF can't show Hindi text. Download the Word file instead, then save it as PDF from Word.");
-    await loadLib("jspdf");
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF({ unit: "pt", format: "a4" });
+  /* ---------- PDF / copy ---------- */
+  async function makePdf(text) {
+    await loadScript(JSPDF);
+    const pdf = new window.jspdf.jsPDF({ unit: "pt", format: "a4" });
     const W = pdf.internal.pageSize.getWidth(), H = pdf.internal.pageSize.getHeight();
-    const mL = 64, mR = 58, mT = 64, mB = 64, width = W - mL - mR, lh = 17.5, fs = 12;
-    const clean = (s) => s.replace(/₹\s?/g, "Rs. ").replace(/●/g, "*").replace(/[“”]/g, '"').replace(/[‘’]/g, "'").replace(/[^\x00-\xFF–—•…]/g, "");
+    const mL = 64, mR = 58, mT = 64, mB = 64, width = W - mL - mR, lh = 17.5;
+    const fix = (s) => s.replace(/₹\s?/g, "Rs. ").replace(/●/g, "*").replace(/[“”]/g, '"').replace(/[‘’]/g, "'").replace(/[^\x00-\xFF–—•…]/g, "");
     let y = mT;
-    const need = (h) => { if (y + h > H - mB) { pdf.addPage(); y = mT; } };
-    pdf.setFont("times", "normal"); pdf.setFontSize(fs);
-    parseBlocks(text).forEach((b) => {
-      const bold = b.cls === "heading" || b.cls === "subject";
-      pdf.setFont("times", bold ? "bold" : "normal");
+    pdf.setFontSize(12);
+    blocks(text).forEach((b) => {
+      pdf.setFont("times", b.cls === "heading" || b.cls === "subject" ? "bold" : "normal");
       b.lines.forEach((raw) => {
-        let line = clean(raw), x = mL, w = width, num = "";
+        let line = fix(raw), x = mL, w = width, num = "";
         if (b.cls === "num") { const m = line.match(/^(\d+\s*[.)])\s+/); if (m) { num = m[1]; line = line.slice(m[0].length); x = mL + 26; w = width - 26; } }
         const wrapped = pdf.splitTextToSize(line, w);
         wrapped.forEach((wl, i) => {
-          need(lh);
+          if (y + lh > H - mB) { pdf.addPage(); y = mT; }
           if (num && i === 0) pdf.text(num, mL, y);
-          if (b.cls === "heading") {
-            pdf.text(wl, W / 2, y, { align: "center" });
-            const tw = pdf.getTextWidth(wl); pdf.setLineWidth(0.6); pdf.line(W / 2 - tw / 2, y + 2, W / 2 + tw / 2, y + 2);
-          } else if ((b.cls === "para" || b.cls === "num") && i < wrapped.length - 1) {
-            pdf.text(wl, x, y, { align: "justify", maxWidth: w });
-          } else pdf.text(wl, x, y);
+          if (b.cls === "heading") pdf.text(wl, W / 2, y, { align: "center" });
+          else if ((b.cls === "para" || b.cls === "num") && i < wrapped.length - 1) pdf.text(wl, x, y, { align: "justify", maxWidth: w });
+          else pdf.text(wl, x, y);
           y += lh;
         });
       });
@@ -1752,344 +576,243 @@ ${tpls.map((t) => `----- ${t.title} (${t.tag}) -----\n${t.text}\n----- END -----
     for (let i = 1; i <= n; i++) { pdf.setPage(i); pdf.text(`Page ${i} of ${n}`, W / 2, H - 32, { align: "center" }); }
     return pdf.output("blob");
   }
-
-  async function exportAs(fmt, rec) {
-    const text = rec ? rec.notice : paperText() || state.noticeText;
+  function fileName(rec) {
+    const who = (rec.drawerName || "Notice").replace(/^m\/s\.?\s*/i, "").replace(/[^a-z0-9]+/gi, "_").replace(/^_|_$/g, "").slice(0, 40);
+    return `Section138_Notice_${who}_Chq${rec.chequeNo || ""}.pdf`;
+  }
+  async function downloadPdf(rec, text) {
     if (!text) { toast("There's no notice to download yet."); return; }
-    if (!rec && state.dirty) await saveRecord({});
-    const base = fileBase(rec);
     try {
-      if (fmt === "docx") await saveFile(base + ".docx", await buildDocx(text));
-      else if (fmt === "pdf") await saveFile(base + ".pdf", await buildPdf(text));
-      else if (fmt === "txt") await saveFile(base + ".txt", text);
-      else if (fmt === "copy") {
-        try { await navigator.clipboard.writeText(text); toast("Notice copied."); }
-        catch { const ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select(); try { document.execCommand("copy"); toast("Notice copied."); } catch { toast("Couldn't copy. Select the text on the page and copy it.", "err"); } ta.remove(); }
-      } else if (fmt === "print") { goStep(3); setTimeout(() => window.print(), 100); }
-    } catch (e) { toast(e.message || "Download failed.", "err"); }
+      const blob = await makePdf(text);
+      const name = fileName(rec);
+      if (IN_CLAUDE) {
+        const dl = await cap("downloads");
+        if (!dl) { toast("Downloads aren't available here. Use Copy text instead.", "err"); return; }
+        try { await dl.save({ filename: name, data: blob }); toast("PDF downloaded."); } catch (e) { if (e && e.code !== "declined") toast("Download failed. Use Copy text instead.", "err"); }
+        return;
+      }
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob); a.download = name;
+      document.body.appendChild(a); a.click();
+      setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+      toast("PDF downloaded: " + name);
+    } catch (e) { toast(e.message || "Couldn't make the PDF.", "err"); }
+  }
+  async function copy(text) {
+    try { await navigator.clipboard.writeText(text); toast("Copied. You can paste it into Word now."); }
+    catch {
+      const ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); toast("Copied. You can paste it into Word now."); } catch { toast("Couldn't copy. Select the text and copy it yourself.", "err"); }
+      ta.remove();
+    }
   }
 
-  function renderDownload() {
-    const d = data();
-    const L = limitation(d);
-    const rows = [
-      ["Client", d.clientName], ["Drawer", d.drawerName], ["Cheque", d.chequeNo ? `No. ${d.chequeNo} dated ${fDate(d.dt.cheque)}` : ""],
-      ["Amount", d.amount > 0 ? `${d.amountFig}` : ""], ["Drawn on", d.draweeBank], ["Dishonour", d.reason ? `"${d.reason}", memo dated ${fDate(d.dt.memo)}` : ""],
-      ["Notice date", fDate(d.dt.notice)], ["Send notice by", L.lastNotice ? fDate(L.lastNotice) : ""], ["Dispatch", d.dispatchMode],
-    ];
-    $("dlSummary").innerHTML = rows.map(([a, b]) => `<div><dt>${esc(a)}</dt><dd>${esc(b || "—")}</dd></div>`).join("");
-    const saved = !!(state.current && !state.dirty);
-    $("dlSavedTag").textContent = saved ? "Saved in History" : "Not saved";
-    $("dlSavedTag").className = "tag " + (saved ? "ok" : "muted");
-    $("dlSavedLine").hidden = !saved;
-    const ph = (paperText().match(/\[[^\]\n]{1,90}\]/g) || []);
-    $("dlPlaceholders").hidden = !ph.length;
-    $("dlPlaceholders").innerHTML = ph.length ? `<b>${ph.length} gap${ph.length > 1 ? "s" : ""} still to fill:</b> ${esc(ph.slice(0, 6).join(", "))}${ph.length > 6 ? "…" : ""}. Go back and edit the notice, or fill them in Word.` : "";
-    $("printFmt").hidden = IN_CLAUDE;
-    $("dlHint").textContent = IN_CLAUDE ? "You'll be asked to confirm each download." : "Word is best if you want to edit it or print it on your letterhead.";
+  /* ---------- history storage: claude.ai account, or this browser ---------- */
+  const Store = {
+    col: null,
+    async init() {
+      if (!IN_CLAUDE) return;
+      try {
+        const [db, user] = await Promise.all([cap("db"), cap("user")]);
+        const id = user && (await user.id());
+        if (db && id) this.col = db.collection("data/users/" + id);
+      } catch { this.col = null; }
+    },
+    async list() {
+      if (this.col) {
+        try { const s = await this.col.orderBy("updatedAt", "desc").limit(500).get(); return s.docs.map((x) => ({ ...x.data(), id: x.id })); }
+        catch { toast("Couldn't load History. Try reloading the page.", "err"); return []; }
+      }
+      return ls.get("s138.history", []);
+    },
+    async put(r) {
+      if (this.col) { try { await this.col.doc(r.id).set(JSON.parse(JSON.stringify(r))); return true; } catch { toast("Couldn't save to History.", "err"); return false; } }
+      const all = ls.get("s138.history", []).filter((x) => x.id !== r.id); all.unshift(r);
+      if (!ls.set("s138.history", all)) { toast("This browser's storage is full. Delete some old notices.", "err"); return false; }
+      return true;
+    },
+    async remove(id) {
+      if (this.col) { try { await this.col.doc(id).delete(); } catch {} return; }
+      ls.set("s138.history", ls.get("s138.history", []).filter((x) => x.id !== id));
+    },
+  };
+  async function refresh() {
+    state.history = (await Store.list()).sort((a, b) => String(b.updatedAt || "").localeCompare(String(a.updatedAt || "")));
+    $("histCount").textContent = state.history.length;
+    renderHistory();
   }
-
-  /* ============================================================
-     Templates
-     ============================================================ */
-  function renderTemplates() {
-    $("tplList").innerHTML = TEMPLATES.map((t, i) => `
-      <label class="tpl${t.id === state.template ? " sel" : ""}" data-tpl="${t.id}">
-        <input type="radio" name="tpl" value="${t.id}"${t.id === state.template ? " checked" : ""}>
-        <span><b>${String.fromCharCode(65 + i)}. ${esc(t.title)}</b><small>${esc(t.tag)}</small>
-        <button type="button" class="link" data-view-tpl="${t.id}">Read template</button></span>
-      </label>`).join("");
+  async function seedSamples() {
+    if (ls.get("s138.seeded")) return;
+    const have = new Set(state.history.map((r) => r.id));
+    for (const s of SAMPLES) if (!have.has(s.id)) await Store.put(s);
+    ls.set("s138.seeded", true);
   }
-  function selectTemplate(id) {
-    if (!TEMPLATES.some((t) => t.id === id)) return;
-    state.template = id;
-    document.querySelectorAll(".tpl").forEach((el) => { el.classList.toggle("sel", el.dataset.tpl === id); el.querySelector("input").checked = el.dataset.tpl === id; });
-  }
-
-  /* ============================================================
-     Settings
-     ============================================================ */
-  function loadAi() {
-    state.ai = { ...DEFAULT_AI, ...(ls.get("s138.ai") || {}) };
-    if (!IN_CLAUDE && state.ai.engine === "claude") state.ai.engine = "openai";
-    state.apiKey = ls.get("s138.key") || ss.get("s138.key") || "";
-    updateEngineChip();
-  }
-  function updateEngineChip() {
-    $("engineChipName").textContent = AI.name();
-    const ok = AI.ready();
-    $("engineDot").classList.toggle("on", ok);
-    $("engineChipState").textContent = state.ai.engine === "claude" ? (ok ? "Ready" : "Only on claude.ai") : ok ? "API key set" : "No API key yet";
-    $("storageNote").textContent = Store.label();
-  }
-  function loadSettingsForm() {
-    $("engOpenai").checked = state.ai.engine === "openai";
-    $("engClaude").checked = state.ai.engine === "claude";
-    $("engClaude").disabled = !IN_CLAUDE;
-    $("engClaudeCard").style.opacity = IN_CLAUDE ? "1" : ".55";
-    syncEngineCards();
-    $("apiKey").value = state.apiKey;
-    $("rememberKey").checked = !!state.ai.rememberKey;
-    $("model").value = state.ai.model;
-    $("baseUrl").value = state.ai.baseUrl;
-    $("reasoningEffort").value = state.ai.reasoningEffort || "";
-    $("maxTokens").value = state.ai.maxTokens;
-    const lh = ls.get("s138.letterhead", {});
-    Object.keys(LH_MAP).forEach((k) => setVal(k, lh[LH_MAP[k]] || (k === "lhDispatch" ? OPTIONS.dispatchMode[0] : "")));
-    $("storageDetail").textContent = Store.label() + ".";
-  }
-  function syncEngineCards() {
-    const eng = $("engClaude").checked ? "claude" : "openai";
-    $("engOpenaiCard").classList.toggle("sel", eng === "openai");
-    $("engClaudeCard").classList.toggle("sel", eng === "claude");
-    const w = $("engineWarn");
-    if (eng === "openai" && IN_CLAUDE) { w.hidden = false; w.textContent = "You opened the app from a claude.ai link, which can't connect to OpenAI. To use GPT with your key, open the desktop file. To keep working here, choose Claude."; }
-    else if (!IN_CLAUDE) { w.hidden = false; w.className = "note info"; w.textContent = "This copy runs on your computer, so it uses OpenAI with your API key. The Claude option works only from the claude.ai link."; }
-    else w.hidden = true;
-  }
-  function saveAi() {
-    state.ai = {
-      engine: $("engClaude").checked ? "claude" : "openai",
-      model: $("model").value.trim() || DEFAULT_AI.model,
-      baseUrl: $("baseUrl").value.trim() || DEFAULT_AI.baseUrl,
-      reasoningEffort: $("reasoningEffort").value,
-      maxTokens: Math.max(1000, Number($("maxTokens").value) || DEFAULT_AI.maxTokens),
-      rememberKey: $("rememberKey").checked,
+  async function saveCurrent(text) {
+    const d = data(), now = new Date().toISOString();
+    const rec = {
+      id: (state.current && state.current.id) || uid(),
+      createdAt: (state.current && state.current.createdAt) || now,
+      updatedAt: now,
+      clientName: d.clientName, drawerName: d.drawerName, chequeNo: d.chequeNo, amount: d.amount > 0 ? d.amount : null,
+      form: readForm(), notice: text,
     };
-    state.apiKey = $("apiKey").value.trim();
-    ls.set("s138.ai", state.ai);
-    if (state.ai.rememberKey) { ls.set("s138.key", state.apiKey); ss.del("s138.key"); } else { ls.del("s138.key"); ss.set("s138.key", state.apiKey); }
-    updateEngineChip();
-    toast("AI settings saved.");
+    if (await Store.put(rec)) { state.current = rec; $("savedNote").textContent = "✓ Saved in History"; await refresh(); }
   }
-  async function testConnection() {
-    const st = $("testStatus");
-    const key = $("apiKey").value.trim();
-    if ($("engClaude").checked) {
-      st.innerHTML = '<span class="spinner"></span>Checking…';
-      const s = await cap("sample");
-      st.textContent = s ? "Claude is available here." : "Claude isn't available in this view.";
+
+  /* ---------- draft actions ---------- */
+  function validate() {
+    let first = null;
+    REQUIRED.forEach((f) => { const bad = !val(f) || (f === "chequeAmount" && !(amt(val(f)) > 0)); $(f).classList.toggle("invalid", bad); if (bad && !first) first = $(f); });
+    if (first) { first.focus(); first.scrollIntoView({ block: "center", behavior: "smooth" }); toast("Please fill in the fields marked in red.", "err"); }
+    return !first;
+  }
+  function setStatus(msg, cls = "", spin = false) { const s = $("genStatus"); s.className = "status" + (cls ? " " + cls : ""); s.innerHTML = (spin ? '<span class="spinner"></span>' : "") + esc(msg); }
+
+  async function generate() {
+    if (state.busy || !validate()) return;
+    const p = provider(state.apiKey);
+    if (p !== "claude" && !state.apiKey) { toast("Paste your API key at the top and click Save key first.", "err"); $("apiKey").focus(); return; }
+    const d = data();
+    state.busy = true;
+    $("generateBtn").disabled = true;
+    const t0 = Date.now();
+    const label = `Drafting with ${PROVIDERS[p].name}${p === "claude" ? "" : " (" + (val("model") || modelFor(p)) + ")"}…`;
+    setStatus(label, "", true);
+    const tick = setInterval(() => setStatus(`${label} ${Math.round((Date.now() - t0) / 1000)}s`, "", true), 1000);
+    try {
+      const text = clean(await callAI(SYSTEM, userPrompt(d)));
+      state.current = null;
+      render($("paper"), text);
+      $("resultCard").hidden = false;
+      await saveCurrent(text);
+      setStatus(`Notice ready in ${Math.round((Date.now() - t0) / 1000)}s and saved to History.`, "ok");
+      $("resultCard").scrollIntoView({ behavior: "smooth", block: "start" });
+    } catch (e) {
+      setStatus(e.message, "err");
+    } finally {
+      clearInterval(tick);
+      state.busy = false;
+      $("generateBtn").disabled = false;
+    }
+  }
+
+  let editTimer = null;
+  function onPaperEdit() {
+    $("savedNote").textContent = "Saving…";
+    clearTimeout(editTimer);
+    editTimer = setTimeout(() => saveCurrent(textOf($("paper"))), 900);
+  }
+
+  /* ---------- history UI ---------- */
+  function renderHistory() {
+    const q = val("histSearch").toLowerCase();
+    const rows = state.history.filter((r) => !q || [r.clientName, r.drawerName, r.chequeNo].join(" ").toLowerCase().includes(q));
+    $("histItems").innerHTML = rows.length ? rows.map((r) => `
+      <button type="button" class="item" data-id="${esc(r.id)}" aria-current="${state.selected === r.id}">
+        <span class="who">${esc(r.clientName || "—")} → ${esc(r.drawerName || "—")}</span>
+        <span class="sub"><span>Chq ${esc(r.chequeNo || "—")}</span><span class="amt">${r.amount ? esc(inr(r.amount)) : ""}</span><span>${esc(sDate(new Date(r.updatedAt)))}</span>${r.sample ? '<span class="tag">Sample</span>' : ""}</span>
+      </button>`).join("") : `<div class="empty"><b>${state.history.length ? "No matches" : "No notices yet"}</b>${state.history.length ? "Try a different search." : "Notices you generate are saved here."}</div>`;
+    const sel = state.history.find((r) => r.id === state.selected);
+    $("histEmpty").hidden = !!sel;
+    $("histDetail").hidden = !sel;
+    if (sel) {
+      $("hvTitle").textContent = `${sel.clientName || "—"} → ${sel.drawerName || "—"}`;
+      $("hvMeta").textContent = `Cheque ${sel.chequeNo || "—"}${sel.amount ? " · " + inr(sel.amount) : ""} · saved ${sDate(new Date(sel.updatedAt))}${sel.sample ? " · sample" : ""}`;
+      render($("hvPaper"), sel.notice);
+    }
+  }
+  function showTab(t) {
+    const hist = t === "history";
+    $("viewDraft").hidden = hist; $("viewHistory").hidden = !hist;
+    $("tabDraft").setAttribute("aria-selected", String(!hist)); $("tabHistory").setAttribute("aria-selected", String(hist));
+    if (hist && !state.history.some((r) => r.id === state.selected) && state.history[0]) state.selected = state.history[0].id;
+    if (hist) renderHistory();
+    window.scrollTo(0, 0);
+  }
+
+  /* ---------- key UI ---------- */
+  function updateKeyUI() {
+    const p = provider(state.apiKey);
+    if (IN_CLAUDE) {
+      $("keyState").textContent = "In this online version, notices are drafted by Claude. Your key is used when you open the app file on your computer.";
+      $("model").closest(".model").hidden = true;
       return;
     }
-    if (!key) { st.textContent = "Enter your API key first."; return; }
-    st.innerHTML = '<span class="spinner"></span>Checking…';
-    const base = ($("baseUrl").value.trim() || DEFAULT_AI.baseUrl).replace(/\/+$/, "");
-    const model = $("model").value.trim() || DEFAULT_AI.model;
-    try {
-      const r = await fetch(`${base}/models/${encodeURIComponent(model)}`, { headers: { Authorization: "Bearer " + key } });
-      const j = await r.json().catch(() => ({}));
-      st.textContent = r.ok ? `Connected. ${model} is available on your account.` : `Not connected: ${(j.error && j.error.message) || r.status}`;
-    } catch {
-      st.textContent = IN_CLAUDE ? "This claude.ai link can't reach OpenAI. Use the desktop file for GPT." : "Couldn't reach OpenAI. Check your internet connection and the API address.";
-    }
-  }
-  function saveLetterhead() {
-    const lh = {};
-    Object.entries(LH_MAP).forEach(([k, f]) => (lh[f] = val(k)));
-    ls.set("s138.letterhead", lh);
-    Object.entries(lh).forEach(([f, v]) => { if (!val(f) || f === "dispatchMode") setVal(f, v); });
-    toast("Letterhead saved. New notices will use it.");
+    $("model").value = modelFor(p);
+    $("keyState").innerHTML = state.apiKey
+      ? `<span style="color:var(--ok)">✓ Key saved</span> · ${esc(PROVIDERS[p].name)} key detected`
+      : "No key saved yet. It stays on this computer and is sent only to the AI company.";
   }
 
-  /* ============================================================
-     New notice / sample
-     ============================================================ */
-  function newNotice(withToast = true) {
-    $("caseForm").reset();
-    ["useAllTemplates", "extraInstructions"].forEach((id) => setVal(id, id === "useAllTemplates" ? false : ""));
-    setVal("tone", OPTIONS.tone[0]); setVal("language", OPTIONS.language[0]);
-    document.querySelectorAll(".filled,.invalid").forEach((el) => el.classList.remove("filled", "invalid"));
-    const lh = ls.get("s138.letterhead", {});
-    Object.entries(lh).forEach(([f, v]) => setVal(f, v));
-    setVal("noticeDate", iso(today()));
-    state.docs = []; state.current = null; state.noticeText = ""; state.conversation = null; state.dirty = false;
-    renderFiles();
-    $("extractResult").innerHTML = "";
-    resetPaper();
-    $("reviseBox").hidden = true;
-    $("saveDraftBtn").disabled = true; $("saveDraftBtn").textContent = "Save changes";
-    $("toDownloadBtn").disabled = true;
-    setDraftStatus("Nothing drafted yet.");
-    $("newTitle").textContent = "New demand notice";
-    selectTemplate(TEMPLATES[0].id);
-    syncForm();
-    saveWip();
-    if (withToast) { goStep(1); toast("Started a new notice."); }
-  }
+  /* ---------- wiring ---------- */
+  function init() {
+    $("style").innerHTML = TEMPLATES.map((t, i) => `<option value="${t.id}">${String.fromCharCode(65 + i)}. ${esc(t.title)} (${esc(t.tag)})</option>`).join("");
+    state.apiKey = ls.get("s138.key", "") || "";
+    $("apiKey").value = state.apiKey;
+    updateKeyUI();
 
-  function loadSample() {
-    newNotice(false);
-    const t = today(), rel = (n) => iso(addDays(t, n));
-    writeForm({
-      clientName: "M/s. Shree Ganesh Steel Traders", clientType: "Partnership Firm", clientAddress: "45, Loha Mandi, Siyaganj, Indore - 452007",
-      clientBusiness: "wholesale trading of TMT bars, structural steel and allied construction material", clientRep: "its Managing Partner, Mr. Rakesh Agrawal",
-      drawerName: "M/s. Kapoor Infrabuild Pvt. Ltd.", drawerType: "Private Limited Company", drawerAddress: "302, Apollo Premier, Vijay Nagar,\nIndore - 452010",
-      drawerDirectors: "Mr. Sanjay Kapoor, Managing Director, 12 Scheme No. 54, Indore - 452010\nMrs. Neha Kapoor, Director, 12 Scheme No. 54, Indore - 452010",
-      drawerContact: "accounts@kapoorinfra.example.com", drawerSignatory: "Mr. Sanjay Kapoor, Managing Director",
-      txnType: "Sale / supply of goods", totalLiability: "6,48,500",
-      txnDocs: "Purchase Order No. KIB/PO/118 dated 02.06.2026; Tax Invoices No. SGST/2026/211 and SGST/2026/219; delivery challans acknowledged at site",
-      txnFacts: "you placed orders with my client for TMT bars and structural steel for your residential project 'Kapoor Heights' at Nipania, Indore. My client supplied the material at your site, and you accepted it without any complaint. Against the outstanding bills you handed over a cheque to my client's Managing Partner at my client's office, promising that it would be honoured on presentation.",
-      reminders: "repeated telephone reminders and an email dated " + fDate(addDays(t, -12)),
-      chequeNo: "004417", chequeDate: rel(-35), chequeAmount: "6,48,500", draweeBank: "ICICI Bank, Vijay Nagar Branch, Indore", drawerAccount: "624105000789",
-      presentDate: rel(-22), payeeBank: "State Bank of India, Siyaganj Branch, Indore", memoDate: rel(-20), memoReceivedDate: rel(-19),
-      dishonourReason: "Funds Insufficient", claimInterest: true, interestRate: "18", noticeCost: "5,500", reserveBNS: true,
-      advName: val("advName") || "Ananya Deshpande", advDesignation: val("advDesignation") || "Advocate, High Court of Madhya Pradesh",
-      advAddress: val("advAddress") || "Chamber No. 14, Lawyers' Complex, M.G. Road, Indore - 452001", advPhone: val("advPhone") || "+91 98260 11223",
-      advEmail: val("advEmail") || "ananya.deshpande@example.com", noticeDate: rel(0), dispatchMode: "BY REGISTERED POST A.D. AND EMAIL", refNo: "AD/NI/2026/031",
-      template: "commercial-goods",
+    const saved = ls.get("s138.form");
+    if (saved && saved.facts !== undefined) writeForm(saved); else writeForm(ls.get("s138.adv", {}));
+    if (!val("noticeDate")) $("noticeDate").value = iso(new Date());
+    sync();
+
+    $("tabDraft").addEventListener("click", () => showTab("draft"));
+    $("tabHistory").addEventListener("click", () => showTab("history"));
+    $("showKey").addEventListener("click", () => { const k = $("apiKey"); k.type = k.type === "password" ? "text" : "password"; $("showKey").textContent = k.type === "password" ? "Show" : "Hide"; });
+    $("saveKey").addEventListener("click", () => {
+      state.apiKey = val("apiKey");
+      ls.set("s138.key", state.apiKey);
+      updateKeyUI();
+      toast(state.apiKey ? `Key saved (${PROVIDERS[provider(state.apiKey)].name}).` : "Key removed.");
     });
-    $("newTitle").textContent = "Sample case: Shree Ganesh Steel Traders";
-    saveWip();
-    goStep(2);
-    toast("Sample case loaded. Check the details, then go to Draft notice.");
-  }
+    $("apiKey").addEventListener("keydown", (e) => { if (e.key === "Enter") $("saveKey").click(); });
+    $("model").addEventListener("change", () => ls.set("s138.model." + provider(state.apiKey), val("model") || null));
 
-  /* ============================================================
-     Backup
-     ============================================================ */
-  async function exportBackup() {
-    if (!state.history.length) { toast("There are no saved notices to back up."); return; }
-    await saveFile(`S138_Notices_Backup_${iso(today())}.json`, JSON.stringify({ app: "s138-notice-desk", version: 1, exportedAt: new Date().toISOString(), notices: state.history }, null, 2));
-  }
-  async function importBackup(file) {
-    try {
-      const j = JSON.parse(await file.text());
-      const list = Array.isArray(j) ? j : j.notices;
-      if (!Array.isArray(list)) throw new Error();
-      let n = 0;
-      for (const r of list) { if (r && r.id && r.notice) { if (await Store.put(r)) n++; } }
-      await refreshHistory();
-      toast(`Restored ${n} notice${n === 1 ? "" : "s"}.`);
-    } catch { toast("That file isn't a backup from this app.", "err"); }
-  }
-
-  /* ============================================================
-     Wiring
-     ============================================================ */
-  function armDanger(btn, action, label = "Click again to confirm") {
-    if (btn.classList.contains("armed")) { btn.classList.remove("armed"); action(); return; }
-    const orig = btn.textContent;
-    btn.classList.add("armed"); btn.textContent = label;
-    setTimeout(() => { if (btn.isConnected && btn.classList.contains("armed")) { btn.classList.remove("armed"); btn.textContent = orig; } }, 4000);
-  }
-
-  function wire() {
-    document.querySelectorAll(".nav button").forEach((b) => b.addEventListener("click", () => showView(b.dataset.view)));
-    $("engineChip").addEventListener("click", () => showView("settings"));
-    document.querySelectorAll(".stepper button").forEach((b) => b.addEventListener("click", () => goStep(b.dataset.step)));
-    document.addEventListener("click", (e) => {
-      const go = e.target.closest("[data-go]"); if (go) { goStep(go.dataset.go); return; }
-      const vl = e.target.closest("[data-view-link]"); if (vl) { showView(vl.dataset.viewLink); return; }
-      if (!e.target.closest(".menu")) document.querySelectorAll(".menu-list").forEach((m) => m.remove());
-    });
-
-    // upload
-    const dz = $("dropZone");
-    $("fileInput").addEventListener("change", (e) => { addFiles(e.target.files); e.target.value = ""; });
-    ["dragenter", "dragover"].forEach((ev) => dz.addEventListener(ev, (e) => { e.preventDefault(); dz.classList.add("over"); }));
-    ["dragleave", "drop"].forEach((ev) => dz.addEventListener(ev, (e) => { e.preventDefault(); dz.classList.remove("over"); }));
-    dz.addEventListener("drop", (e) => addFiles(e.dataTransfer.files));
-    $("fileList").addEventListener("click", (e) => {
-      const rm = e.target.closest("[data-remove]");
-      if (rm) { state.docs = state.docs.filter((f) => f.id !== rm.dataset.remove); renderFiles(); }
-    });
-    $("fileList").addEventListener("change", (e) => {
-      const k = e.target.closest("[data-kind]");
-      if (k) { const f = state.docs.find((x) => x.id === k.dataset.kind); if (f) f.kind = k.value; }
-    });
-    $("extractBtn").addEventListener("click", () => {
-      if (!AI.ready()) { toast(state.ai.engine === "claude" ? "Claude works only from the claude.ai link." : "Add your OpenAI API key in Settings first.", "err"); showView("settings"); return; }
-      extractFromDocs();
-    });
-
-    // form
     const form = $("caseForm");
-    form.addEventListener("input", (e) => { e.target.classList.remove("invalid", "filled"); syncForm(); saveWip(); });
-    form.addEventListener("change", () => { syncForm(); saveWip(); });
+    form.addEventListener("input", (e) => { e.target.classList.remove("invalid"); sync(); saveDraft(); });
+    form.addEventListener("change", () => { sync(); saveDraft(); });
     form.addEventListener("submit", (e) => e.preventDefault());
-    ["chequeAmount", "totalLiability", "noticeCost"].forEach((id) => $(id).addEventListener("blur", (e) => { const n = parseAmt(e.target.value); if (n > 0) e.target.value = inrPlain(n); syncForm(); }));
-    ["tone", "language", "extraInstructions", "useAllTemplates"].forEach((id) => $(id).addEventListener("change", saveWip));
+    ["chequeAmount", "noticeCost"].forEach((f) => $(f).addEventListener("blur", () => { const n = amt(val(f)); if (n > 0) $(f).value = n.toLocaleString("en-IN", { maximumFractionDigits: 2 }); sync(); saveDraft(); }));
 
-    // draft
-    $("tplList").addEventListener("click", (e) => {
-      const v = e.target.closest("[data-view-tpl]");
-      if (v) { e.preventDefault(); const t = TEMPLATES.find((x) => x.id === v.dataset.viewTpl); $("tplDialogTitle").textContent = t.title; $("tplDialogBody").textContent = t.text; $("tplDialog").showModal(); return; }
-    });
-    $("tplList").addEventListener("change", (e) => { if (e.target.name === "tpl") { selectTemplate(e.target.value); saveWip(); } });
-    $("tplDialogClose").addEventListener("click", () => $("tplDialog").close());
     $("generateBtn").addEventListener("click", generate);
-    $("standardBtn").addEventListener("click", useStandard);
-    $("stopBtn").addEventListener("click", () => state.abort && state.abort.abort());
-    $("reviseBtn").addEventListener("click", revise);
-    $("reviseInput").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); revise(); } });
-    $("paper").addEventListener("input", () => { state.dirty = true; state.noticeText = paperText(); $("saveDraftBtn").disabled = false; $("saveDraftBtn").textContent = "Save changes"; setDraftStatus("Unsaved edits."); saveWip(); });
-    $("saveDraftBtn").addEventListener("click", async () => { if (await saveRecord({})) setDraftStatus("Changes saved to History.", "ok"); });
+    $("paper").addEventListener("input", onPaperEdit);
+    $("pdfBtn").addEventListener("click", () => downloadPdf(state.current || data(), textOf($("paper"))));
+    $("copyBtn").addEventListener("click", () => copy(textOf($("paper"))));
 
-    // download
-    document.querySelectorAll(".fmt").forEach((b) => b.addEventListener("click", () => exportAs(b.dataset.fmt)));
-    $("dlNewBtn").addEventListener("click", () => newNotice(true));
-    $("newNoticeBtn").addEventListener("click", () => newNotice(true));
-    $("sampleBtn").addEventListener("click", loadSample);
-
-    // history
-    $("historySearch").addEventListener("input", renderHistory);
-    $("historyBody").addEventListener("click", async (e) => {
-      const btn = e.target.closest("[data-h]"); if (!btn) return;
-      const id = btn.closest("tr").dataset.id;
-      const r = state.history.find((x) => x.id === id); if (!r) return;
-      const act = btn.dataset.h;
-      if (act === "open") openRecord(r, 3);
-      else if (act === "dup") {
-        newNotice(false);
-        writeForm({ ...r.form, chequeNo: "", chequeDate: "", chequeAmount: "", presentDate: "", memoDate: "", memoReceivedDate: "", noticeDate: iso(today()) });
-        showView("new"); goStep(2); toast("Copied the parties into a new notice. Enter the new cheque details.");
-      } else if (act === "del") armDanger(btn, async () => { await Store.remove(id); await refreshHistory(); toast("Notice deleted."); }, "Confirm delete");
-      else if (act === "dlmenu") {
-        document.querySelectorAll(".menu-list").forEach((m) => m.remove());
-        const m = document.createElement("div");
-        m.className = "menu-list";
-        m.innerHTML = '<button type="button" data-f="docx">Word (.docx)</button><button type="button" data-f="pdf">PDF</button><button type="button" data-f="txt">Text (.txt)</button><button type="button" data-f="copy">Copy text</button>';
-        m.addEventListener("click", (ev) => { const f = ev.target.closest("[data-f]"); if (f) { m.remove(); exportAs(f.dataset.f, r); } });
-        btn.parentElement.appendChild(m);
-      }
+    $("histSearch").addEventListener("input", renderHistory);
+    $("histItems").addEventListener("click", (e) => { const it = e.target.closest(".item"); if (it) { state.selected = it.dataset.id; renderHistory(); if (window.innerWidth < 900) $("histView").scrollIntoView({ behavior: "smooth" }); } });
+    const sel = () => state.history.find((r) => r.id === state.selected);
+    $("hvPdf").addEventListener("click", () => { const r = sel(); if (r) downloadPdf(r, r.notice); });
+    $("hvCopy").addEventListener("click", () => { const r = sel(); if (r) copy(r.notice); });
+    $("hvEdit").addEventListener("click", () => {
+      const r = sel(); if (!r) return;
+      const f = { ...(r.form || {}) };
+      if (!f.facts && f.txnFacts) f.facts = f.txnFacts;
+      if (!f.advDetails && (f.advDesignation || f.advAddress)) f.advDetails = [f.advDesignation, f.advAddress].filter(Boolean).join("\n");
+      if (!f.reason && f.dishonourReason) f.reason = f.dishonourReason;
+      writeForm(f);
+      saveDraft();
+      state.current = r.sample ? null : r;
+      render($("paper"), r.notice);
+      $("resultCard").hidden = false;
+      $("savedNote").textContent = r.sample ? "Sample notice. Your edits will be saved as a new notice." : "✓ Saved in History";
+      setStatus("");
+      showTab("draft");
     });
-    $("exportBtn").addEventListener("click", exportBackup);
-    $("importBtn").addEventListener("click", () => $("importInput").click());
-    $("importInput").addEventListener("change", (e) => { if (e.target.files[0]) importBackup(e.target.files[0]); e.target.value = ""; });
+    $("hvDelete").addEventListener("click", async (e) => {
+      const b = e.currentTarget;
+      if (!b.classList.contains("armed")) { b.classList.add("armed"); b.textContent = "Click to confirm"; setTimeout(() => { b.classList.remove("armed"); b.textContent = "Delete"; }, 4000); return; }
+      b.classList.remove("armed"); b.textContent = "Delete";
+      const r = sel(); if (!r) return;
+      await Store.remove(r.id);
+      if (state.current && state.current.id === r.id) state.current = null;
+      state.selected = null;
+      await refresh();
+      toast("Notice deleted.");
+    });
 
-    // settings
-    ["engOpenai", "engClaude"].forEach((id) => $(id).addEventListener("change", syncEngineCards));
-    $("saveAiBtn").addEventListener("click", saveAi);
-    $("testBtn").addEventListener("click", testConnection);
-    $("saveLhBtn").addEventListener("click", saveLetterhead);
-    $("clearHistoryBtn").addEventListener("click", (e) => armDanger(e.currentTarget, async () => {
-      for (const r of state.history) await Store.remove(r.id);
-      await refreshHistory(); toast("All saved notices deleted.");
-    }, "Click again to delete everything"));
-
-    window.addEventListener("beforeunload", saveWip);
+    (async () => { await Store.init(); state.history = await Store.list(); await seedSamples(); await refresh(); })();
   }
-
-  async function init() {
-    fillSelects();
-    renderTemplates();
-    loadAi();
-    wire();
-    const wip = ls.get("s138.wip");
-    if (wip && wip.form) {
-      writeForm(wip.form);
-      if (wip.noticeText) { state.noticeText = wip.noticeText; renderPaper(wip.noticeText); afterDraft(wip.noticeText); setDraftStatus("Restored your last draft."); }
-    } else newNotice(false);
-    if (!val("noticeDate")) setVal("noticeDate", iso(today()));
-    syncForm();
-    goStep(1);
-    await Store.init();
-    await refreshHistory();
-    if (wip && wip.currentId) state.current = state.history.find((r) => r.id === wip.currentId) || null;
-    if (state.current) $("saveDraftBtn").textContent = "Saved";
-    updateEngineChip();
-  }
-
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
 })();
 </script>
