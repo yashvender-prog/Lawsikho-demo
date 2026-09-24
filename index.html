@@ -59,6 +59,8 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 20px 22px; }
 .card h2 { font-size: 16px; font-weight: 700; }
 .card .lede { color: var(--muted); font-size: 13px; margin: 2px 0 0; }
+.form-head { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; justify-content: space-between; }
+.btn.small { padding: 6px 12px; font-size: 12.8px; }
 .muted { color: var(--muted); }
 
 .keybar { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px 14px; align-items: center; padding: 14px 18px; }
@@ -168,8 +170,16 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); ou
   </section>
 
   <form class="card" id="caseForm" autocomplete="off" novalidate>
-    <h2>Case details</h2>
-    <p class="lede">Fill in what's on the cheque and the bank's return memo. Fields marked <b style="color:var(--err)">*</b> are needed to draft the notice.</p>
+    <div class="form-head">
+      <div>
+        <h2>Case details</h2>
+        <p class="lede">Fill in what's on the cheque and the bank's return memo. Fields marked <b style="color:var(--err)">*</b> are needed to draft the notice.</p>
+      </div>
+      <span style="display:flex;gap:8px;flex-wrap:wrap">
+        <button type="button" class="btn small" id="sampleBtn">Fill sample details</button>
+        <button type="button" class="btn small" id="clearBtn">Clear form</button>
+      </span>
+    </div>
 
     <div class="sec first">
       <h3>Your client<small>Who the cheque was payable to</small></h3>
@@ -1444,7 +1454,7 @@ Advocate`,
     if (d.dt.notice && d.dt.notice > last)
       return { cls: "err", text: `Too late: the notice had to be sent by ${fDate(last)}, 30 days after the dishonour was known.` };
     const left = d.dt.notice ? Math.round((last - d.dt.notice) / 86400000) : null;
-    return { cls: left != null && left <= 5 ? "warn" : "ok", text: `Send this notice by ${fDate(last)}${left != null ? ` (${left} day${left === 1 ? "" : "s"} after the notice date)` : ""}. The drawer then has 15 days from receiving it to pay.` };
+    return { cls: left != null && left <= 5 ? "warn" : "ok", text: `Send this notice by ${fDate(last)}${left != null ? ` (${left} day${left === 1 ? "" : "s"} left after the notice date)` : ""}. The drawer then has 15 days from receiving it to pay.` };
   }
   function sync() {
     const d = data();
@@ -1803,6 +1813,57 @@ OUTPUT: plain text only, with no markdown, asterisks or comments. Put a blank li
       : "No key saved yet. It stays on this computer and is sent only to the AI company.";
   }
 
+
+  /* ---------- sample details for a fresh draft (fills the form only; does not generate) ---------- */
+  function fillSample() {
+    const t = new Date(); t.setHours(0, 0, 0, 0);
+    const rel = (n) => iso(addDays(t, n));
+    const sample = {
+      clientName: "M/s. Medisure Surgicals",
+      clientAddress: "12, Boring Road Crossing, Patna - 800001, a proprietorship concern of Mr. Rajiv Ranjan",
+      drawerName: "M/s. Lifeline Multispeciality Hospital Pvt. Ltd.",
+      drawerAddress: "Bailey Road, Raja Bazar, Patna - 800014",
+      drawerDirectors: "Dr. Sameer Prasad, Managing Director, at the above address\nDr. Anjali Prasad, Director, at the above address",
+      facts: "Supply of surgical consumables (sutures, catheters, IV sets and disposable kits) to the hospital's central store against Purchase Orders LMH/PO/2026/311 and LMH/PO/2026/338 and Tax Invoices MS/2026/0412 and MS/2026/0447. Goods received and acknowledged by the hospital's store in-charge without complaint. Cheque given by the hospital's accounts department against the two unpaid invoices. Reminder email sent after dishonour, no reply.",
+      chequeNo: "700452",
+      chequeDate: rel(-30),
+      chequeAmount: "4,35,600",
+      draweeBank: "Punjab National Bank, Bailey Road Branch, Patna (A/c No. 0421002100018765)",
+      presentDate: rel(-18),
+      memoDate: rel(-17),
+      memoReceivedDate: rel(-16),
+      reason: "Funds Insufficient",
+      otherReason: "",
+      interestRate: "18",
+      noticeCost: "5,000",
+      noticeDate: rel(0),
+      dispatchMode: "BY REGISTERED POST A.D. AND EMAIL",
+      style: "commercial-goods",
+    };
+    const adv = { advName: "Aditya Raj Sinha", advContact: "+91 94310 52867 | aditya.sinha@example.com", advDetails: "Advocate, Patna High Court\nChamber No. 22, Advocates' Association Building, Patna High Court, Patna - 800001" };
+    Object.entries(adv).forEach(([k, v]) => { if (!val(k)) sample[k] = v; });
+    writeForm(sample);
+    document.querySelectorAll(".invalid").forEach((el) => el.classList.remove("invalid"));
+    state.current = null;
+    $("resultCard").hidden = true;
+    $("paper").innerHTML = "";
+    setStatus("");
+    saveDraft();
+    $("caseForm").scrollIntoView({ behavior: "smooth", block: "start" });
+    toast("Sample details filled in. Check them, then click Generate notice when you're ready.");
+  }
+  function clearForm() {
+    FIELDS.forEach((f) => { if (!ADV.includes(f) && $(f) && $(f).tagName !== "SELECT") $(f).value = ""; });
+    $("reason").selectedIndex = 0;
+    $("noticeDate").value = iso(new Date());
+    document.querySelectorAll(".invalid").forEach((el) => el.classList.remove("invalid"));
+    state.current = null;
+    $("resultCard").hidden = true;
+    setStatus("");
+    sync(); saveDraft();
+    toast("Form cleared. Your advocate details were kept.");
+  }
+
   /* ---------- wiring ---------- */
   function init() {
     $("style").innerHTML = TEMPLATES.map((t, i) => `<option value="${t.id}">${String.fromCharCode(65 + i)}. ${esc(t.title)} (${esc(t.tag)})</option>`).join("");
@@ -1834,6 +1895,9 @@ OUTPUT: plain text only, with no markdown, asterisks or comments. Put a blank li
     ["chequeAmount", "noticeCost"].forEach((f) => $(f).addEventListener("blur", () => { const n = amt(val(f)); if (n > 0) $(f).value = n.toLocaleString("en-IN", { maximumFractionDigits: 2 }); sync(); saveDraft(); }));
 
     $("generateBtn").addEventListener("click", generate);
+    $("sampleBtn").addEventListener("click", fillSample);
+    $("clearBtn").addEventListener("click", clearForm);
+    if (location.hash === "#sample") fillSample();
     $("paper").addEventListener("input", onPaperEdit);
     $("pdfBtn").addEventListener("click", () => downloadPdf(state.current || data(), textOf($("paper"))));
     $("copyBtn").addEventListener("click", () => copy(textOf($("paper"))));
